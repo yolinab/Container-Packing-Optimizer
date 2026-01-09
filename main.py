@@ -235,4 +235,4 @@ def main(
 
 
 if __name__ == "__main__":
-    main("sample_instances/input_large.xlsx")
+    main("app/sample_instances/input_large.xlsx")
