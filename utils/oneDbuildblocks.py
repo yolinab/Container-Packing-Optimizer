@@ -104,6 +104,7 @@ def build_block_type_table(Hdoor_cm: int) -> Dict[str, BlockType]:
     # 115x77 (rotation relevant, big)
     add((115,77),  "66-89", 6, 3, 3*89,  allow_rotate=True)
     add((115,77),  "89-130",4, 2, 2*130, allow_rotate=True)
+    add((115,77),  ">130",  2, 1, 230,   allow_rotate=True)  # single layer, 2 across (too tall to stack under 250cm door)
 
     # 77x77
     # Your corrected logic: <89 => 9 pallets per block (3-high, 3 across), 89-130 => 6 (2-high, 3 across)

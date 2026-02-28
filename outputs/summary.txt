@@ -1,0 +1,8 @@
+CONTAINER PACKING SUMMARY
+========================
+
+Containers used: 1
+Total pallets loaded: 12
+Total weight loaded (kg): 0
+
+Container 1: pallets=12, weight=0 kg, used_length=487 cm, leftover=716 cm

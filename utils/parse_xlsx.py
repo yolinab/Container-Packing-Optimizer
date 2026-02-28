@@ -310,6 +310,25 @@ def parse_pallet_excel_v2(
     return lengths, widths, heights, pallets_data, meta_per_pallet
 
 
+def _detect_header_row(excel_path: str, sheet_name: Any = 0) -> int:
+    """
+    Scan the raw sheet to find the row index of the actual column headers.
+    Looks for a row containing at least 2 known header keywords.
+    Returns 0 (first row) as a fallback.
+    """
+    markers = {
+        "barcode", "pallet size", "pallet and packing size",
+        "productname", "product name", "total order full pallets",
+        "total number of pallets", "total pallet in container",
+    }
+    df_raw = pd.read_excel(excel_path, sheet_name=sheet_name, header=None)
+    for i, row in df_raw.iterrows():
+        row_lower = {str(v).strip().lower() for v in row.values if pd.notna(v)}
+        if len(row_lower & markers) >= 2:
+            return int(i)
+    return 0
+
+
 def parse_pallet_excel_v3(
     excel_path: str,
     sheet_name: Any = 0,
@@ -326,11 +345,13 @@ def parse_pallet_excel_v3(
 
     If return_per_pallet_meta=False, meta_per_pallet will be [].
     """
-    df = pd.read_excel(excel_path, sheet_name=sheet_name)
+    header_row = _detect_header_row(excel_path, sheet_name)
+    df = pd.read_excel(excel_path, sheet_name=sheet_name, header=header_row)
 
     # Required columns
-    col_pallet_size = _find_col_required(df, ["Pallet size", "size"])
-    col_count = _find_col_required(df, ["Total order full pallets", "full pallets", "order full pallets"])
+    # "Pallet and packing size" (new format) takes priority over "Pallet size" (old format)
+    col_pallet_size = _find_col_required(df, ["Pallet and packing size", "Pallet size", "size"])
+    col_count = _find_col_required(df, ["Total order full pallets", "Total number of pallets", "full pallets", "order full pallets", "number of pallets"])
 
     # Optional columns (best-effort)
     col_productname = _find_col_optional(df, ["Productname", "product name", "product"])

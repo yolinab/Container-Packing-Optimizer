@@ -1,0 +1,40 @@
+[2026-02-28 17:40:08] Base directory: /Users/yolina/Desktop/Container_packing_optimizer/app
+[2026-02-28 17:40:08] Excel input: /Users/yolina/Desktop/Container_packing_optimizer/app/sample_instances/input.xlsx
+[2026-02-28 17:40:08] === STEP 1: Parsing Excel ===
+[2026-02-28 17:40:08] === STEP 2: Building Row-Blocks ===
+[2026-02-28 17:40:08] === STEP 3: Solving Containers ===
+[2026-02-28 17:40:08] === ALL CONTAINERS SOLVED ===
+[2026-02-28 17:40:08] Wrote containers: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/containers.json
+[2026-02-28 17:40:08] Wrote summary: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/summary.txt
+[2026-02-28 18:05:56] Base directory: /Users/yolina/Desktop/Container_packing_optimizer/app
+[2026-02-28 18:05:56] Excel input: /Users/yolina/Desktop/Container_packing_optimizer/app/sample_instances/input_final.xlsx
+[2026-02-28 18:05:56] === STEP 1: Parsing Excel ===
+[2026-02-28 18:05:56] === STEP 2: Building Row-Blocks ===
+[2026-02-28 18:05:56] === STEP 3: Solving Containers ===
+[2026-02-28 18:05:56] === ALL CONTAINERS SOLVED ===
+[2026-02-28 18:05:56] Wrote containers: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/containers.json
+[2026-02-28 18:05:56] Wrote summary: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/summary.txt
+[2026-02-28 18:06:38] Base directory: /Users/yolina/Desktop/Container_packing_optimizer/app
+[2026-02-28 18:06:38] Excel input: /Users/yolina/Desktop/Container_packing_optimizer/app/sample_instances/input_final.xlsx
+[2026-02-28 18:06:38] === STEP 1: Parsing Excel ===
+[2026-02-28 18:06:38] === STEP 2: Building Row-Blocks ===
+[2026-02-28 18:06:38] === STEP 3: Solving Containers ===
+[2026-02-28 18:06:38] === ALL CONTAINERS SOLVED ===
+[2026-02-28 18:06:38] Wrote containers: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/containers.json
+[2026-02-28 18:06:38] Wrote summary: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/summary.txt
+[2026-02-28 18:09:58] Base directory: /Users/yolina/Desktop/Container_packing_optimizer/app
+[2026-02-28 18:09:58] Excel input: /Users/yolina/Desktop/Container_packing_optimizer/app/sample_instances/input_final.xlsx
+[2026-02-28 18:09:58] === STEP 1: Parsing Excel ===
+[2026-02-28 18:09:58] === STEP 2: Building Row-Blocks ===
+[2026-02-28 18:09:58] === STEP 3: Solving Containers ===
+[2026-02-28 18:09:58] === ALL CONTAINERS SOLVED ===
+[2026-02-28 18:09:58] Wrote containers: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/containers.json
+[2026-02-28 18:09:58] Wrote summary: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/summary.txt
+[2026-02-28 18:10:35] Base directory: /Users/yolina/Desktop/Container_packing_optimizer/app
+[2026-02-28 18:10:35] Excel input: /Users/yolina/Desktop/Container_packing_optimizer/app/sample_instances/input_final.xlsx
+[2026-02-28 18:10:35] === STEP 1: Parsing Excel ===
+[2026-02-28 18:10:35] === STEP 2: Building Row-Blocks ===
+[2026-02-28 18:10:35] === STEP 3: Solving Containers ===
+[2026-02-28 18:10:35] === ALL CONTAINERS SOLVED ===
+[2026-02-28 18:10:35] Wrote containers: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/containers.json
+[2026-02-28 18:10:35] Wrote summary: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/summary.txt

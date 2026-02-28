@@ -1,0 +1,245 @@
+[
+  {
+    "container_index": 1,
+    "rows": [
+      {
+        "block_id": 4,
+        "block_type": "115x77|>130",
+        "length_cm": 77,
+        "height_cm": 144,
+        "weight_kg": 0.0,
+        "pallet_count": 2,
+        "y_start_cm": 0,
+        "pallets": [
+          {
+            "pallet_id": 7,
+            "type_index": 0,
+            "within_type_index": 7,
+            "label": "Tahiti pot round off white brown grey 3 assorted - h33xd38cm",
+            "pallet_size_raw": "1,15x0,77x1,44",
+            "length": 115,
+            "width": 77,
+            "height": 144,
+            "weight_kg": null,
+            "productname": "Tahiti pot round off white brown grey 3 assorted - h33xd38cm",
+            "barcode": "8720983443251",
+            "code": "1188735"
+          },
+          {
+            "pallet_id": 8,
+            "type_index": 0,
+            "within_type_index": 8,
+            "label": "Tahiti pot round off white brown grey 3 assorted - h33xd38cm",
+            "pallet_size_raw": "1,15x0,77x1,44",
+            "length": 115,
+            "width": 77,
+            "height": 144,
+            "weight_kg": null,
+            "productname": "Tahiti pot round off white brown grey 3 assorted - h33xd38cm",
+            "barcode": "8720983443251",
+            "code": "1188735"
+          }
+        ]
+      },
+      {
+        "block_id": 1,
+        "block_type": "115x77|>130",
+        "length_cm": 77,
+        "height_cm": 144,
+        "weight_kg": 0.0,
+        "pallet_count": 2,
+        "y_start_cm": 82,
+        "pallets": [
+          {
+            "pallet_id": 1,
+            "type_index": 0,
+            "within_type_index": 1,
+            "label": "Tahiti pot round off white brown grey 3 assorted - h33xd38cm",
+            "pallet_size_raw": "1,15x0,77x1,44",
+            "length": 115,
+            "width": 77,
+            "height": 144,
+            "weight_kg": null,
+            "productname": "Tahiti pot round off white brown grey 3 assorted - h33xd38cm",
+            "barcode": "8720983443251",
+            "code": "1188735"
+          },
+          {
+            "pallet_id": 2,
+            "type_index": 0,
+            "within_type_index": 2,
+            "label": "Tahiti pot round off white brown grey 3 assorted - h33xd38cm",
+            "pallet_size_raw": "1,15x0,77x1,44",
+            "length": 115,
+            "width": 77,
+            "height": 144,
+            "weight_kg": null,
+            "productname": "Tahiti pot round off white brown grey 3 assorted - h33xd38cm",
+            "barcode": "8720983443251",
+            "code": "1188735"
+          }
+        ]
+      },
+      {
+        "block_id": 3,
+        "block_type": "115x77|>130",
+        "length_cm": 77,
+        "height_cm": 144,
+        "weight_kg": 0.0,
+        "pallet_count": 2,
+        "y_start_cm": 164,
+        "pallets": [
+          {
+            "pallet_id": 5,
+            "type_index": 0,
+            "within_type_index": 5,
+            "label": "Tahiti pot round off white brown grey 3 assorted - h33xd38cm",
+            "pallet_size_raw": "1,15x0,77x1,44",
+            "length": 115,
+            "width": 77,
+            "height": 144,
+            "weight_kg": null,
+            "productname": "Tahiti pot round off white brown grey 3 assorted - h33xd38cm",
+            "barcode": "8720983443251",
+            "code": "1188735"
+          },
+          {
+            "pallet_id": 6,
+            "type_index": 0,
+            "within_type_index": 6,
+            "label": "Tahiti pot round off white brown grey 3 assorted - h33xd38cm",
+            "pallet_size_raw": "1,15x0,77x1,44",
+            "length": 115,
+            "width": 77,
+            "height": 144,
+            "weight_kg": null,
+            "productname": "Tahiti pot round off white brown grey 3 assorted - h33xd38cm",
+            "barcode": "8720983443251",
+            "code": "1188735"
+          }
+        ]
+      },
+      {
+        "block_id": 2,
+        "block_type": "115x77|>130",
+        "length_cm": 77,
+        "height_cm": 144,
+        "weight_kg": 0.0,
+        "pallet_count": 2,
+        "y_start_cm": 246,
+        "pallets": [
+          {
+            "pallet_id": 3,
+            "type_index": 0,
+            "within_type_index": 3,
+            "label": "Tahiti pot round off white brown grey 3 assorted - h33xd38cm",
+            "pallet_size_raw": "1,15x0,77x1,44",
+            "length": 115,
+            "width": 77,
+            "height": 144,
+            "weight_kg": null,
+            "productname": "Tahiti pot round off white brown grey 3 assorted - h33xd38cm",
+            "barcode": "8720983443251",
+            "code": "1188735"
+          },
+          {
+            "pallet_id": 4,
+            "type_index": 0,
+            "within_type_index": 4,
+            "label": "Tahiti pot round off white brown grey 3 assorted - h33xd38cm",
+            "pallet_size_raw": "1,15x0,77x1,44",
+            "length": 115,
+            "width": 77,
+            "height": 144,
+            "weight_kg": null,
+            "productname": "Tahiti pot round off white brown grey 3 assorted - h33xd38cm",
+            "barcode": "8720983443251",
+            "code": "1188735"
+          }
+        ]
+      },
+      {
+        "block_id": 6,
+        "block_type": "115x77|>130",
+        "length_cm": 77,
+        "height_cm": 144,
+        "weight_kg": 0.0,
+        "pallet_count": 2,
+        "y_start_cm": 328,
+        "pallets": [
+          {
+            "pallet_id": 11,
+            "type_index": 0,
+            "within_type_index": 11,
+            "label": "Tahiti pot round off white brown grey 3 assorted - h33xd38cm",
+            "pallet_size_raw": "1,15x0,77x1,44",
+            "length": 115,
+            "width": 77,
+            "height": 144,
+            "weight_kg": null,
+            "productname": "Tahiti pot round off white brown grey 3 assorted - h33xd38cm",
+            "barcode": "8720983443251",
+            "code": "1188735"
+          },
+          {
+            "pallet_id": 12,
+            "type_index": 0,
+            "within_type_index": 12,
+            "label": "Tahiti pot round off white brown grey 3 assorted - h33xd38cm",
+            "pallet_size_raw": "1,15x0,77x1,44",
+            "length": 115,
+            "width": 77,
+            "height": 144,
+            "weight_kg": null,
+            "productname": "Tahiti pot round off white brown grey 3 assorted - h33xd38cm",
+            "barcode": "8720983443251",
+            "code": "1188735"
+          }
+        ]
+      },
+      {
+        "block_id": 5,
+        "block_type": "115x77|>130",
+        "length_cm": 77,
+        "height_cm": 144,
+        "weight_kg": 0.0,
+        "pallet_count": 2,
+        "y_start_cm": 410,
+        "pallets": [
+          {
+            "pallet_id": 9,
+            "type_index": 0,
+            "within_type_index": 9,
+            "label": "Tahiti pot round off white brown grey 3 assorted - h33xd38cm",
+            "pallet_size_raw": "1,15x0,77x1,44",
+            "length": 115,
+            "width": 77,
+            "height": 144,
+            "weight_kg": null,
+            "productname": "Tahiti pot round off white brown grey 3 assorted - h33xd38cm",
+            "barcode": "8720983443251",
+            "code": "1188735"
+          },
+          {
+            "pallet_id": 10,
+            "type_index": 0,
+            "within_type_index": 10,
+            "label": "Tahiti pot round off white brown grey 3 assorted - h33xd38cm",
+            "pallet_size_raw": "1,15x0,77x1,44",
+            "length": 115,
+            "width": 77,
+            "height": 144,
+            "weight_kg": null,
+            "productname": "Tahiti pot round off white brown grey 3 assorted - h33xd38cm",
+            "barcode": "8720983443251",
+            "code": "1188735"
+          }
+        ]
+      }
+    ],
+    "used_length_cm": 487,
+    "leftover_cm": 716,
+    "loaded_value": 12,
+    "loaded_weight": 0
+  }
+]

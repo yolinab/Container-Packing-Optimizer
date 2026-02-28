@@ -1,20 +1,26 @@
-"""
-MAIN PIPELINE — 1D ROW-BLOCK CONTAINER PACKING
-=============================================
+"""MAIN PIPELINE — 1D ROW-BLOCK CONTAINER PACKING
 
-Assumes the following already exist and are imported:
-- parse_pallet_excel_v3  (or v2) returning meta_per_pallet with weight_kg
-- build_row_blocks_from_pallets
-- RowBlock1DOrderModel (1D order-based model)
+Demo-friendly runner:
+- When frozen (PyInstaller), uses the executable folder as base directory.
+- When not frozen, uses this file's folder as base directory.
+- Default input: `input.xlsx` next to the executable/script.
+- Outputs written to `outputs/` next to the executable/script:
+    - summary.txt
+    - containers.json
+    - run.log
 
-NOTE: Your current RowBlock1DOrderModel does NOT accept group_ids.
-To avoid selecting both rotation variants of the same physical block, this script
-selects ONE variant per physical block_id before solving (currently: shortest length).
-If you later add group_ids support in the model, remove the `select_one_variant_per_block()` step
-and pass group_ids into the model.
+IMPORTANT:
+CPMpy tries to import optional solvers (e.g., Gurobi) if installed.
+For a stable executable, build in an environment WITHOUT `gurobipy`
+(or build with PyInstaller excluding `gurobipy`).
 """
 
 from typing import List, Dict, Any
+from pathlib import Path
+import argparse
+import datetime
+import json
+import sys
 
 from utils.parse_xlsx import parse_pallet_excel_v3
 from utils.oneDbuildblocks import build_row_blocks_from_pallets
@@ -22,6 +28,30 @@ from models.A_1D_multi_container_placement_chatGPT import RowBlock1DOrderModel
 
 from utils.visualize_row_blocks import plot_all_row_block_containers_pallets
 
+
+def _base_dir(user_base_dir: str | None = None) -> Path:
+    """Resolve the base directory for inputs/outputs."""
+    if user_base_dir:
+        return Path(user_base_dir).expanduser().resolve()
+    # PyInstaller frozen app/exe
+    if getattr(sys, "frozen", False):
+        return Path(sys.executable).resolve().parent
+    # Normal python execution
+    return Path(__file__).resolve().parent
+
+
+def _setup_outputs(base: Path) -> Path:
+    out = base / "outputs"
+    out.mkdir(parents=True, exist_ok=True)
+    return out
+
+
+def _log(out_dir: Path, msg: str) -> None:
+    ts = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    line = f"[{ts}] {msg}"
+    print(line)
+    with (out_dir / "run.log").open("a", encoding="utf-8") as f:
+        f.write(line + "\n")
 
 
 def select_one_variant_per_block(blocks):
@@ -40,7 +70,7 @@ def select_one_variant_per_block(blocks):
 
 
 def main(
-    excel_path: str,
+    excel_path: str = "input_final.xlsx",
     sheet_name=0,
     L_cm: int = 1203,
     gap_cm: int = 5,
@@ -48,14 +78,26 @@ def main(
     Hdoor_cm: int = 250,
     solver: str = "ortools",
     time_limit: int = 10,
+    base_dir: str | None = None,
+    no_plot: bool = False,
 ):
+    base = _base_dir(base_dir)
+    out_dir = _setup_outputs(base)
+
+    excel_p = Path(excel_path)
+    if not excel_p.is_absolute():
+        excel_p = (base / excel_p).resolve()
+
+    _log(out_dir, f"Base directory: {base}")
+    _log(out_dir, f"Excel input: {excel_p}")
+
     # ------------------------------------------------------------
     # 1) Parse Excel
     # ------------------------------------------------------------
-    print("\n=== STEP 1: Parsing Excel ===")
+    _log(out_dir, "=== STEP 1: Parsing Excel ===")
 
     lengths, widths, heights, pallets_data, meta_per_pallet = parse_pallet_excel_v3(
-        excel_path,
+        str(excel_p),
         sheet_name=sheet_name,
         return_per_pallet_meta=True,
     )
@@ -66,7 +108,7 @@ def main(
     # ------------------------------------------------------------
     # 2) Build row-block instances (and validate multiples)
     # ------------------------------------------------------------
-    print("\n=== STEP 2: Building Row-Blocks ===")
+    _log(out_dir, "=== STEP 2: Building Row-Blocks ===")
 
     blocks, recommendations, warnings = build_row_blocks_from_pallets(
         meta_per_pallet,
@@ -91,6 +133,13 @@ def main(
         print("You need to add pallets to reach valid multiples:\n")
         for k, v in recommendations.items():
             print(f"  {k}: add {v} pallets")
+        summary_path = out_dir / "summary.txt"
+        with summary_path.open("w", encoding="utf-8") as f:
+            f.write("ORDER NOT VALID FOR FULL ROW-BLOCK MODEL\n")
+            f.write("Add pallets to reach valid multiples:\n\n")
+            for k, v in recommendations.items():
+                f.write(f"- {k}: add {v} pallets\n")
+        _log(out_dir, f"Wrote summary: {summary_path}")
         print("\nStopping before optimization.")
         return
 
@@ -106,7 +155,7 @@ def main(
     # ------------------------------------------------------------
     # 3) Multi-container loop
     # ------------------------------------------------------------
-    print("\n=== STEP 3: Solving Containers ===")
+    _log(out_dir, "=== STEP 3: Solving Containers ===")
 
     remaining_blocks = blocks[:]  # copy
     containers: List[Dict[str, Any]] = []
@@ -222,17 +271,71 @@ def main(
     # ------------------------------------------------------------
     # 7) Final output
     # ------------------------------------------------------------
-    print("\n=== ALL CONTAINERS SOLVED ===")
+    _log(out_dir, "=== ALL CONTAINERS SOLVED ===")
     print(f"Total containers used: {len(containers)}")
+
+    containers_path = out_dir / "containers.json"
+    with containers_path.open("w", encoding="utf-8") as f:
+        json.dump(containers, f, ensure_ascii=False, indent=2)
+    _log(out_dir, f"Wrote containers: {containers_path}")
+
+    summary_path = out_dir / "summary.txt"
+    total_pallets = sum(c["loaded_value"] for c in containers)
+    total_weight = sum(c["loaded_weight"] for c in containers)
+    with summary_path.open("w", encoding="utf-8") as f:
+        f.write("CONTAINER PACKING SUMMARY\n")
+        f.write("========================\n\n")
+        f.write(f"Containers used: {len(containers)}\n")
+        f.write(f"Total pallets loaded: {total_pallets}\n")
+        f.write(f"Total weight loaded (kg): {total_weight}\n\n")
+        for c in containers:
+            f.write(
+                f"Container {c['container_index']}: pallets={c['loaded_value']}, weight={c['loaded_weight']} kg, used_length={c['used_length_cm']} cm, leftover={c['leftover_cm']} cm\n"
+            )
+    _log(out_dir, f"Wrote summary: {summary_path}")
 
     # ------------------------------------------------------------
     # 8) Visualization of all containers
     # ------------------------------------------------------------
     # containers = main("sample_instances/input_large.xlsx")
-    plot_all_row_block_containers_pallets(containers, W=235, L=1203, H=270)
+    if not no_plot:
+        plot_all_row_block_containers_pallets(containers, W=235, L=1203, H=270)
+        # Keep plot windows open when running as a script
+        try:
+            import matplotlib.pyplot as plt
+            plt.show()
+        except Exception:
+            pass
 
     return containers
 
 
 if __name__ == "__main__":
-    main("app/sample_instances/input_large.xlsx")
+    parser = argparse.ArgumentParser(description="Container optimizer (double-click friendly)")
+    # Default: in frozen executable expect input.xlsx next to the exe; in dev use sample_instances
+    default_excel = "input_final.xlsx" if getattr(sys, "frozen", False) else "sample_instances/input_final.xlsx"
+    # In dev, show plots by default; in frozen app, disable plots by default
+    default_no_plot = True if getattr(sys, "frozen", False) else False
+    parser.add_argument(
+        "--excel",
+        default=default_excel,
+        help="Excel file (frozen: input.xlsx next to exe; dev: sample_instances/input.xlsx)",
+    )
+    parser.add_argument("--sheet", default=0, help="Sheet index or name")
+    parser.add_argument("--no_plot", action="store_true", help="Disable plotting")
+    parser.add_argument("--base_dir", default=None, help="Base directory for input/output")
+
+    args = parser.parse_args()
+
+    sheet_val = args.sheet
+    try:
+        sheet_val = int(sheet_val)
+    except Exception:
+        pass
+
+    main(
+        excel_path=args.excel,
+        sheet_name=sheet_val,
+        base_dir=args.base_dir,
+        no_plot=(args.no_plot or default_no_plot),
+    )
