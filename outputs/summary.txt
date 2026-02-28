@@ -1,8 +1,16 @@
 CONTAINER PACKING SUMMARY
 ========================
 
-Containers used: 1
-Total pallets loaded: 12
-Total weight loaded (kg): 0
+Containers used: 9
+Total pallets loaded: 290
+Total weight loaded (kg): 0.0
 
-Container 1: pallets=12, weight=0 kg, used_length=487 cm, leftover=716 cm
+Container 1: pallets=42, weight=0 kg, used_length=1201 cm, leftover=2 cm, NP_boxes=16 (1.913 m³, 0 kg)
+Container 2: pallets=40, weight=0 kg, used_length=1195 cm, leftover=8 cm
+Container 3: pallets=40, weight=0 kg, used_length=1195 cm, leftover=8 cm
+Container 4: pallets=40, weight=0 kg, used_length=1195 cm, leftover=8 cm
+Container 5: pallets=40, weight=0 kg, used_length=1195 cm, leftover=8 cm
+Container 6: pallets=28, weight=0 kg, used_length=1143 cm, leftover=60 cm, NP_boxes=69 (9.344 m³, 0 kg)
+Container 7: pallets=28, weight=0 kg, used_length=1143 cm, leftover=60 cm
+Container 8: pallets=28, weight=0 kg, used_length=1143 cm, leftover=60 cm
+Container 9: pallets=4, weight=0 kg, used_length=159 cm, leftover=1044 cm

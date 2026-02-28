@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from collections import Counter
+from typing import List, Dict, Any, Optional
 
 
 # ------------------------------------------------------------
@@ -61,10 +62,107 @@ def build_boxes_from_row_blocks(container_rows, container_width_cm):
 
 
 # ------------------------------------------------------------
+# NP box zone helpers
+# ------------------------------------------------------------
+
+# Distinct warm colours for box zones (different palette from pallets)
+_BOX_ZONE_FILL_COLORS = ["khaki", "lightcyan", "palegreen", "thistle", "peachpuff"]
+
+
+def _draw_box_wireframe(
+    ax,
+    x: float, y: float, z: float,
+    w: float, l: float, h: float,
+    color: str = "darkorange",
+    linestyle: str = "--",
+    linewidth: float = 1.1,
+    alpha: float = 0.85,
+) -> None:
+    """Draw all 12 edges of a 3-D box as styled lines (dashed by default)."""
+    x1, y1, z1 = x + w, y + l, z + h
+    edges = [
+        # bottom face
+        ([x, x1], [y,  y ], [z,  z ]),
+        ([x1, x1], [y, y1], [z,  z ]),
+        ([x1, x ], [y1,y1], [z,  z ]),
+        ([x,  x ], [y1, y], [z,  z ]),
+        # top face
+        ([x, x1], [y,  y ], [z1, z1]),
+        ([x1, x1], [y, y1], [z1, z1]),
+        ([x1, x ], [y1,y1], [z1, z1]),
+        ([x,  x ], [y1, y], [z1, z1]),
+        # vertical edges
+        ([x,  x ], [y,  y ], [z, z1]),
+        ([x1, x1], [y,  y ], [z, z1]),
+        ([x1, x1], [y1, y1], [z, z1]),
+        ([x,  x ], [y1, y1], [z, z1]),
+    ]
+    for xs, ys, zs in edges:
+        ax.plot3D(xs, ys, zs,
+                  color=color, linestyle=linestyle,
+                  linewidth=linewidth, alpha=alpha)
+
+
+def build_box_zone_visuals(
+    container_box_zones: Optional[List[Dict[str, Any]]],
+) -> List[Dict[str, Any]]:
+    """
+    Convert container['box_zones'] into renderable dicts for plot_boxes_3d().
+
+    Each returned dict has:
+      x, y, z, w, l, h_fill   — filled-volume cuboid (volume-equivalent height)
+      h_zone                   — full available zone height (for the wireframe outline)
+      color, zone_type, n_boxes, label, legend_line
+    """
+    if not container_box_zones:
+        return []
+
+    visuals = []
+    for zi, zone in enumerate(container_box_zones):
+        zone_L = zone["length_cm"]
+        zone_W = zone["width_cm"]
+        vol_used = zone.get("volume_used_cm3", 0.0)
+        zone_H_max = zone["height_cm"]
+
+        # Rendered fill height = volume-equivalent average height over the zone footprint
+        footprint = zone_L * zone_W
+        h_fill = (vol_used / footprint) if footprint > 0 else 0.0
+        h_fill = min(h_fill, zone_H_max)
+
+        n_boxes = sum(p["quantity"] for p in zone.get("placed", []))
+        labels  = sorted({p["label"] for p in zone.get("placed", [])})
+        label_short = ", ".join(labels[:2]) + ("…" if len(labels) > 2 else "")
+
+        wt_kg  = zone.get("total_weight_kg", 0.0)
+        vol_m3 = vol_used / 1e6
+
+        visuals.append({
+            "x":        0,
+            "y":        zone["y_start_cm"],
+            "z":        zone["z_base_cm"],
+            "w":        zone_W,
+            "l":        zone_L,
+            "h_fill":   h_fill,
+            "h_zone":   zone_H_max,
+            "color":    _BOX_ZONE_FILL_COLORS[zi % len(_BOX_ZONE_FILL_COLORS)],
+            "zone_type": zone["zone_type"],
+            "n_boxes":  n_boxes,
+            "label":    label_short,
+            "legend_line": (
+                f"  NP ({zone['zone_type']}): {n_boxes} boxes | "
+                f"{vol_m3:.3f} m³"
+                + (f" | {wt_kg:.0f} kg" if wt_kg else "")
+                + f" | {label_short}"
+            ),
+        })
+    return visuals
+
+
+# ------------------------------------------------------------
 # Main 3D plotting function (refactored from your original)
 # ------------------------------------------------------------
 
-def plot_boxes_3d(W, L, H, boxes, title=None):
+def plot_boxes_3d(W, L, H, boxes, box_zone_visuals=None, title=None):
     fig = plt.figure(figsize=(12, 7))
     ax = fig.add_subplot(111, projection="3d")
 
@@ -79,6 +177,7 @@ def plot_boxes_3d(W, L, H, boxes, title=None):
         "tab:pink", "tab:gray", "tab:olive", "tab:cyan"
     ]
 
+    # --- Pallets ---
     for i, b in enumerate(boxes):
         ax.bar3d(
             b["x"], b["y"], b["z"],
@@ -96,6 +195,31 @@ def plot_boxes_3d(W, L, H, boxes, title=None):
 
         ax.text(cx, cy, cz, str(b["id"]), color="k", fontsize=9, ha="center")
 
+    # --- NP box zones ---
+    if box_zone_visuals:
+        for bz in box_zone_visuals:
+            x, y, z = bz["x"], bz["y"], bz["z"]
+            w, l    = bz["w"], bz["l"]
+            h_fill  = bz["h_fill"]
+            h_zone  = bz["h_zone"]
+
+            # Dashed wireframe showing the full available zone boundary
+            _draw_box_wireframe(ax, x, y, z, w, l, h_zone,
+                                color="darkorange", linestyle="--", linewidth=1.1)
+
+            # Semi-transparent fill showing how much of the zone is occupied
+            if h_fill > 0.5:
+                ax.bar3d(x, y, z, w, l, h_fill,
+                         alpha=0.22, color=bz["color"],
+                         edgecolor="none", shade=False)
+
+            # Label above the filled region
+            label_z = z + max(h_fill, h_zone) + 3
+            ax.text(x + w / 2, y + l / 2, label_z,
+                    f"NP ×{bz['n_boxes']}\n({bz['zone_type']})",
+                    color="darkorange", fontsize=7,
+                    ha="center", va="bottom", fontweight="bold")
+
     ax.set_xlabel("X — container width (cm)")
     ax.set_ylabel("Y — container length (cm)")
     ax.set_zlabel("Z — height (cm)")
@@ -108,14 +232,13 @@ def plot_boxes_3d(W, L, H, boxes, title=None):
     seen = set()
 
     for b in boxes:
-        legend_id = b.get("legend_id")
+        legend_id   = b.get("legend_id")
         legend_line = b.get("legend_line")
         if legend_id is not None and legend_line is not None:
             if legend_id not in seen:
                 legend_lines.append(legend_line)
                 seen.add(legend_id)
             continue
-
         # Fallback: original per-box legend
         line = (
             f"{b.get('id','?'):>2}: {b.get('block_type','')} | "
@@ -123,6 +246,12 @@ def plot_boxes_3d(W, L, H, boxes, title=None):
             f"{b.get('components','')}"
         )
         legend_lines.append(line)
+
+    # Append NP box zone legend entries
+    if box_zone_visuals:
+        legend_lines.append("")  # blank separator
+        for bz in box_zone_visuals:
+            legend_lines.append(bz["legend_line"])
 
     fig.text(
         0.02,
@@ -253,11 +382,12 @@ def build_pallet_boxes_from_row_blocks(container_rows, container_width_cm, gap_c
 
 
 def plot_row_block_container_pallets(container_info, W, L, H, gap_cm=5):
-    """Plot a single container showing individual pallets (colored by row-block)."""
+    """Plot a single container showing individual pallets + NP box zones."""
     rows = container_info.get("rows", [])
     boxes = build_pallet_boxes_from_row_blocks(rows, W, gap_cm=gap_cm)
-    title = f"Container {container_info.get('container_index','')} — Pallet View"
-    plot_boxes_3d(W, L, H, boxes, title=title)
+    box_zone_visuals = build_box_zone_visuals(container_info.get("box_zones"))
+    title = f"Container {container_info.get('container_index','')} — Pallet + NP Box View"
+    plot_boxes_3d(W, L, H, boxes, box_zone_visuals=box_zone_visuals, title=title)
     return boxes
 
 

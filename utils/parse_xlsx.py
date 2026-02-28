@@ -155,13 +155,19 @@ import re
 def _find_col_optional(df: pd.DataFrame, candidates: List[str]) -> Optional[str]:
     """
     Return first matching column name, or None if not found.
-    Matching is prefix-based on normalised names (lower/strip).
+    Matching is prefix-based on normalised names (lower/strip/collapse-spaces).
+    Multiple consecutive spaces in column headers (e.g. "External  Packaging Quantity")
+    are collapsed to one before comparison.
     """
-    norm_cols = {c.lower().strip(): c for c in df.columns}
+    import re
+    def _norm(s: str) -> str:
+        return re.sub(r'\s+', ' ', s.lower().strip())
+
+    norm_cols = {_norm(c): c for c in df.columns}
     for cand in candidates:
-        cand = cand.lower().strip()
+        cand_norm = _norm(cand)
         for norm_name, orig_name in norm_cols.items():
-            if norm_name.startswith(cand):
+            if norm_name.startswith(cand_norm):
                 return orig_name
     return None
 
@@ -310,6 +316,138 @@ def parse_pallet_excel_v2(
     return lengths, widths, heights, pallets_data, meta_per_pallet
 
 
+def parse_np_boxes_excel_v3(
+    excel_path: str,
+    sheet_name: Any = 0,
+) -> List[Dict[str, Any]]:
+    """
+    Parse NP (non-palletized / loose box) rows from the Excel.
+
+    NP rows are identified by 'NP' in the 'Pallet size' type-code column.
+    Dimensions come from 'Pallet and packing size'.
+    Count is taken from the first available of:
+      'External Packaging Quantity', 'Total pallets in row',
+      'Total pallet in container', or the regular pallet count column.
+
+    Returns list of dicts per box TYPE (not expanded per unit):
+      {label, length_cm, width_cm, height_cm, quantity,
+       weight_kg (per box or None), volume_cm3, total_volume_cm3, total_weight_kg}
+
+    Returns [] if no NP rows found or required columns are missing.
+    """
+    header_row = _detect_header_row(excel_path, sheet_name)
+    df = pd.read_excel(excel_path, sheet_name=sheet_name, header=header_row)
+
+    # 'Pallet size' holds type-codes (A2, NP, etc.).
+    # Prefix "pallet size" matches "Pallet size" but NOT "Pallet and packing size".
+    col_type_code = _find_col_optional(df, ["Pallet size"])
+    # Actual dimension string
+    col_dimensions = _find_col_optional(df, ["Pallet and packing size"])
+
+    if col_type_code is None:
+        print("[NP boxes] No 'Pallet size' type-code column found; skipping NP parsing.")
+        return []
+    if col_dimensions is None:
+        print("[NP boxes] No 'Pallet and packing size' column found; skipping NP parsing.")
+        return []
+
+    col_productname = _find_col_optional(df, ["Productname", "product name", "product"])
+    col_item        = _find_col_optional(df, ["Item", "item"])
+    col_barcode     = _find_col_optional(df, ["Barcode", "bar code", "ean"])
+
+    # Count column: External Packaging Quantity first; fall back to Total number of pallets
+    # because NP rows often leave External Packaging Quantity empty and store
+    # the box count in Total number of pallets instead.
+    col_count_eq  = _find_col_optional(df, ["External Packaging Quantity", "external packaging"])
+    col_count_tnp = _find_col_optional(df, ["Total number of pallets", "Total order full pallets", "number of pallets"])
+    count_cols: List[str] = [c for c in [col_count_eq, col_count_tnp] if c]
+
+    col_weight = _find_col_optional(df, [
+        "External Net weight", "external net weight",
+        "Net weight", "net weight",
+        "Weight", "weight",
+    ])
+
+    # Filter to NP rows
+    np_mask = df[col_type_code].astype(str).str.strip().str.upper() == "NP"
+    df_np = df[np_mask].copy()
+
+    if df_np.empty:
+        print("[NP boxes] No NP rows found in Excel.")
+        return []
+
+    print(f"[NP boxes] Found {len(df_np)} NP row(s) in Excel.")
+
+    np_box_types: List[Dict[str, Any]] = []
+
+    for _, row in df_np.iterrows():
+        dim_val = row.get(col_dimensions)
+        if dim_val is None or pd.isna(dim_val):
+            continue
+        try:
+            L_cm, W_cm, H_cm = _parse_pallet_size_str(str(dim_val))
+        except Exception:
+            continue
+
+        # Quantity — try each candidate column in order, take first non-zero value
+        qty = 0
+        for col_count in count_cols:
+            raw_qty = row.get(col_count)
+            if raw_qty is not None and pd.notna(raw_qty):
+                try:
+                    qty = int(float(str(raw_qty).replace(",", ".")))
+                except Exception:
+                    qty = 0
+            if qty > 0:
+                break
+        if qty <= 0:
+            print(f"[NP boxes] Skipping NP row with zero/missing quantity (dims: {L_cm}x{W_cm}x{H_cm})")
+            continue
+
+        # Weight per box (optional)
+        weight_kg: Optional[float] = None
+        if col_weight:
+            raw_w = row.get(col_weight)
+            if raw_w is not None and pd.notna(raw_w):
+                try:
+                    weight_kg = float(str(raw_w).strip().replace(",", "."))
+                except Exception:
+                    pass
+
+        # Human-readable label
+        label_parts = []
+        if col_productname and pd.notna(row.get(col_productname)):
+            label_parts.append(str(row[col_productname]).strip())
+        if col_item and pd.notna(row.get(col_item)):
+            label_parts.append(str(row[col_item]).strip())
+        if col_barcode and pd.notna(row.get(col_barcode)):
+            label_parts.append(f"[{str(row[col_barcode]).strip()}]")
+        label = " | ".join(label_parts) if label_parts else "NP box"
+
+        vol_cm3 = L_cm * W_cm * H_cm
+        np_box_types.append({
+            "label": label,
+            "length_cm": L_cm,
+            "width_cm": W_cm,
+            "height_cm": H_cm,
+            "quantity": qty,
+            "weight_kg": weight_kg,          # per box; None if unknown
+            "volume_cm3": vol_cm3,           # per box
+            "total_volume_cm3": vol_cm3 * qty,
+            "total_weight_kg": (weight_kg or 0.0) * qty,
+        })
+
+    total_qty = sum(b["quantity"] for b in np_box_types)
+    total_vol = sum(b["total_volume_cm3"] for b in np_box_types)
+    total_wt  = sum(b["total_weight_kg"] for b in np_box_types)
+    print(
+        f"[NP boxes] Parsed {len(np_box_types)} NP box type(s): "
+        f"{total_qty} boxes, {total_vol/1e6:.3f} m³"
+        + (f", {total_wt:.0f} kg total" if total_wt else "")
+    )
+    return np_box_types
+
+
 def _detect_header_row(excel_path: str, sheet_name: Any = 0) -> int:
     """
     Scan the raw sheet to find the row index of the actual column headers.
@@ -351,7 +489,7 @@ def parse_pallet_excel_v3(
     # Required columns
     # "Pallet and packing size" (new format) takes priority over "Pallet size" (old format)
     col_pallet_size = _find_col_required(df, ["Pallet and packing size", "Pallet size", "size"])
-    col_count = _find_col_required(df, ["Total order full pallets", "Total number of pallets", "full pallets", "order full pallets", "number of pallets"])
+    col_count = _find_col_required(df, ["External Packaging Quantity", "external packaging", "Total order full pallets", "Total number of pallets", "full pallets", "order full pallets", "number of pallets"])
 
     # Optional columns (best-effort)
     col_productname = _find_col_optional(df, ["Productname", "product name", "product"])
@@ -368,6 +506,12 @@ def parse_pallet_excel_v3(
         "Net weight", "net weight",
         "Weight", "weight"
     ])
+
+    # Exclude NP (loose box) rows — handled separately by parse_np_boxes_excel_v3
+    col_type_code = _find_col_optional(df, ["Pallet size"])
+    if col_type_code:
+        np_mask = df[col_type_code].astype(str).str.strip().str.upper() == "NP"
+        df = df[~np_mask]
 
     # Clean rows
     df = df.dropna(subset=[col_pallet_size])

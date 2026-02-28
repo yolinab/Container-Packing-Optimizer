@@ -1,5 +1,6 @@
 from cpmpy import *
 from cpmpy.expressions.globalconstraints import Element
+from config import CONTAINER_LENGTH_CM, CONTAINER_DOOR_HEIGHT_CM, CONTAINER_MAX_WEIGHT_KG, ROW_GAP_CM
 
 
 class RowBlock1DOrderModel:
@@ -32,7 +33,7 @@ class RowBlock1DOrderModel:
 
     def __init__(self,
                  lengths_cm, heights_cm, weights_kg, values,
-                 L_cm=1203, gap_cm=5, Wmax_kg=18000, Hdoor_cm=250,
+                 L_cm=CONTAINER_LENGTH_CM, gap_cm=ROW_GAP_CM, Wmax_kg=CONTAINER_MAX_WEIGHT_KG, Hdoor_cm=CONTAINER_DOOR_HEIGHT_CM,
                  Rmax=None,
                  unload_limit=None,
                  min_loaded_value=None):
