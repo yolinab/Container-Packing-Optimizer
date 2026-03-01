@@ -130,11 +130,29 @@ def build_box_zone_visuals(
         h_fill = min(h_fill, zone_H_max)
 
         n_boxes = sum(p["quantity"] for p in zone.get("placed", []))
-        labels  = sorted({p["label"] for p in zone.get("placed", [])})
-        label_short = ", ".join(labels[:2]) + ("…" if len(labels) > 2 else "")
+        wt_kg   = zone.get("total_weight_kg", 0.0)
+        vol_m3  = vol_used / 1e6
 
-        wt_kg  = zone.get("total_weight_kg", 0.0)
-        vol_m3 = vol_used / 1e6
+        # Build "product name (LxWxHcm)" summary — group by product name
+        name_info: dict = {}  # name -> {"dim": str, "count": int}
+        for p in zone.get("placed", []):
+            nm  = p["label"]
+            dim = f"{p['length_cm']}×{p['width_cm']}×{p['height_cm']}cm"
+            if nm not in name_info:
+                name_info[nm] = {"dim": dim, "count": 0}
+            name_info[nm]["count"] += p["quantity"]
+
+        def _short(s, n=20):
+            return s if len(s) <= n else s[:n - 1] + "…"
+
+        legend_parts = [
+            f"{v['count']}× {_short(nm)} ({v['dim']})"
+            for nm, v in list(name_info.items())[:2]
+        ]
+        if len(name_info) > 2:
+            legend_parts.append(f"+{len(name_info) - 2} more")
+        dim_summary  = ", ".join(legend_parts)
+        label_short  = dim_summary or f"{n_boxes} boxes"
 
         visuals.append({
             "x":        0,
@@ -152,7 +170,7 @@ def build_box_zone_visuals(
                 f"  NP ({zone['zone_type']}): {n_boxes} boxes | "
                 f"{vol_m3:.3f} m³"
                 + (f" | {wt_kg:.0f} kg" if wt_kg else "")
-                + f" | {label_short}"
+                + f" | {dim_summary}"
             ),
         })
     return visuals
@@ -206,6 +224,9 @@ def build_rec_block_visuals(
             ppb   = p.get("pallets_per_block", 0)
             label = f"+{ppb}p"
 
+        # For NP boxes: carry product name for legend; fall back to dim key
+        label_display = p.get("label", p["key"]) if is_np else p["key"]
+
         visuals.append({
             "x":               0,
             "y":               p["y_start_cm"],
@@ -218,6 +239,7 @@ def build_rec_block_visuals(
             "zone":            p.get("zone", "tail"),
             "type":            p.get("type", "pallet"),
             "block_type_key":  p["key"],
+            "label_display":   label_display,
             "pallets_per_block": p.get("pallets_per_block", 0),
             "n_boxes":         n_units if is_np else 0,
             "label":           label,
@@ -348,19 +370,24 @@ def plot_boxes_3d(W, L, H, boxes, box_zone_visuals=None, rec_box_visuals=None, t
         legend_lines.append("")
         legend_lines.append("  ++ RECOMMENDED ADDITIONS:")
 
-        # Tally counts and units separately for pallets and NP boxes
-        pal_counts: dict = {}
-        pal_units:  dict = {}
-        np_counts:  dict = {}
-        np_units:   dict = {}
+        # Tally counts and units; also capture display name per (key, zone)
+        pal_counts:    dict = {}
+        pal_units:     dict = {}
+        np_counts:     dict = {}
+        np_units:      dict = {}
+        np_name:       dict = {}   # (key, zone) -> product name
         for rb in rec_box_visuals:
             k = (rb["block_type_key"], rb.get("zone", ""))
             if rb.get("type") == "np_box":
                 np_counts[k] = np_counts.get(k, 0) + 1
                 np_units[k]  = np_units.get(k, 0)  + rb.get("n_boxes", 0)
+                np_name[k]   = rb.get("label_display", k[0])
             else:
                 pal_counts[k] = pal_counts.get(k, 0) + 1
                 pal_units[k]  = pal_units.get(k, 0)  + rb.get("pallets_per_block", 0)
+
+        def _trunc(s, n=28):
+            return s if len(s) <= n else s[:n - 1] + "…"
 
         seen_rec: set = set()
         for rb in rec_box_visuals:
@@ -369,14 +396,15 @@ def plot_boxes_3d(W, L, H, boxes, box_zone_visuals=None, rec_box_visuals=None, t
                 continue
             seen_rec.add(k)
             if rb.get("type") == "np_box":
+                name = _trunc(np_name.get(k, k[0]))
                 legend_lines.append(
-                    f"     (boxes) {np_counts[k]}× {k[0]}"
-                    f"  →  +{np_units[k]} boxes  [{k[1]}]"
+                    f"     (boxes) +{np_units[k]}× {name}"
+                    f"  [{k[0]}]  [{k[1]}]"
                 )
             else:
                 legend_lines.append(
-                    f"     (pallet) {pal_counts[k]}× {k[0]}"
-                    f"  →  +{pal_units[k]} pal  [{k[1]}]"
+                    f"     (pallet) +{pal_units[k]}× {k[0]}"
+                    f"  [{k[1]}]"
                 )
 
     fig.text(

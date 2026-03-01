@@ -27,6 +27,7 @@ from utils.oneDbuildblocks import build_row_blocks_from_pallets
 from models.A_1D_multi_container_placement_chatGPT import RowBlock1DOrderModel
 from utils.visualize_row_blocks import plot_all_row_block_containers_pallets
 from utils.recommend import recommend_fill_containers, print_recommendations
+from utils.export_excel import export_excel_report
 from config import (
     CONTAINER_LENGTH_CM, CONTAINER_WIDTH_CM, CONTAINER_HEIGHT_CM,
     CONTAINER_DOOR_HEIGHT_CM, CONTAINER_MAX_WEIGHT_KG, ROW_GAP_CM,
@@ -510,6 +511,30 @@ def main(
             total_unplaced = sum(e["remaining_qty"] for e in unplaced)
             f.write(f"\nUnplaced NP boxes: {total_unplaced}\n")
     _log(out_dir, f"Wrote summary: {summary_path}")
+
+    # ------------------------------------------------------------
+    # 10) Excel report
+    # ------------------------------------------------------------
+    _log(out_dir, "=== STEP 10: Excel Report ===")
+    _config = {
+        "CONTAINER_LENGTH_CM":    CONTAINER_LENGTH_CM,
+        "CONTAINER_WIDTH_CM":     CONTAINER_WIDTH_CM,
+        "CONTAINER_HEIGHT_CM":    CONTAINER_HEIGHT_CM,
+        "CONTAINER_DOOR_HEIGHT_CM": CONTAINER_DOOR_HEIGHT_CM,
+        "CONTAINER_MAX_WEIGHT_KG":  CONTAINER_MAX_WEIGHT_KG,
+        "ROW_GAP_CM":             ROW_GAP_CM,
+        "RECOMMEND_OBJECTIVE":    RECOMMEND_OBJECTIVE,
+    }
+    report_path = export_excel_report(
+        containers=containers,
+        recs=recs,
+        np_boxes=np_boxes if np_boxes else None,
+        unplaced=unplaced if unplaced else None,
+        out_dir=out_dir,
+        config=_config,
+    )
+    if report_path:
+        _log(out_dir, f"Wrote Excel report: {report_path}")
 
     # ------------------------------------------------------------
     # 8) Visualization of all containers

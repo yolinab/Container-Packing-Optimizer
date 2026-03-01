@@ -218,13 +218,15 @@ def _build_np_box_candidates(
             n_across = W // across_W if across_W > 0 else 0
             if n_across < 1:
                 continue
-            k = (label, row_L, bH)
+            k = (row_L, across_W, bH)
             if k in seen:
                 continue
             seen.add(k)
+            dim_key = f"{bL}×{bW}×{bH}cm"
             cands.append({
                 "type":               "np_box",
-                "key":                label,
+                "key":                dim_key,   # dimension string — used for grouping
+                "label":              label,      # product name — used for display
                 "length_cm":          row_L,
                 "height_cm":          bH,
                 "pallets_per_block":  0,
@@ -259,7 +261,8 @@ def _aggregate_placements(
             k = (p["key"], p["length_cm"], p["height_cm"])
             if k not in np_agg:
                 np_agg[k] = {
-                    "label":      p["key"],
+                    "label":      p.get("label", p["key"]),  # product name
+                    "dim":        p["key"],                   # "LxWxHcm" string
                     "length_cm":  p["length_cm"],
                     "height_cm":  p["height_cm"],
                     "n_across":   p.get("n_across", 1),
@@ -340,10 +343,19 @@ def recommend_fill_containers(
         pallet_cands = _build_pallet_candidates(used_keys, type_table, actual_height_by_key)
         all_cands    = pallet_cands + np_box_cands_global
 
+        # Identify zones already filled by NP box assignment (step 7).
+        # Recommendations must not overlap with existing NP box placements.
+        box_zones = container.get("box_zones", [])
+        atop_covered_y = {
+            z["y_start_cm"]
+            for z in box_zones if z.get("zone_type") == "atop"
+        }
+        tail_has_np = any(z.get("zone_type") == "tail" for z in box_zones)
+
         # ---- Tail zone (z = 0, ceiling = Hdoor_cm) -------------------
         tail_placements: List[Dict[str, Any]] = []
         tail_leftover = tail_L
-        if tail_L > gap_cm and all_cands:
+        if tail_L > gap_cm and all_cands and not tail_has_np:
             tail_placements, tail_leftover = _greedy_fill_2d(
                 avail_L=tail_L,
                 H_avail=Hdoor_cm,          # full door height available from z=0
@@ -368,6 +380,10 @@ def recommend_fill_containers(
             row_L = int(row["length_cm"])
             row_y = int(row["y_start_cm"])
 
+            # Skip rows whose headroom is already occupied by NP box zones
+            if row_y in atop_covered_y:
+                continue
+
             # Door is the binding ceiling: combined height z + h ≤ Hdoor
             avail_h = Hdoor_cm - row_h
             if avail_h <= 0:
@@ -384,7 +400,7 @@ def recommend_fill_containers(
                 avail_L=row_L,
                 H_avail=avail_h,
                 candidates=atop_cands,
-                gap_cm=gap_cm,
+                gap_cm=0,                  # NP boxes pack tightly — no fork-lift gap
                 objective=objective,
                 secondary=secondary,
                 price_by_type=price_by_type,
@@ -461,8 +477,11 @@ def print_recommendations(recs: List[Dict[str, Any]], objective: str) -> None:
 
         def _print_np_rows(rows):
             for b in rows:
-                print(f"      {b['count']}× row of {b['n_across']}× {b['label']}"
-                      f"  (row L={b['length_cm']} cm, H={b['height_cm']} cm)"
+                name = b["label"]
+                if len(name) > 35:
+                    name = name[:33] + "…"
+                print(f"      {b['count']}× row of {b['n_across']}× {name}"
+                      f"  [{b.get('dim', '')}]"
                       f"  →  +{b['total_boxes']} boxes")
 
         if ts.get("pallet_blocks") or ts.get("np_box_rows"):
