@@ -159,10 +159,78 @@ def build_box_zone_visuals(
 
 
 # ------------------------------------------------------------
+# Recommended-block visualization helpers
+# ------------------------------------------------------------
+
+_REC_PALLET_FILL_COLOR = "palegreen"    # recommended pallet blocks
+_REC_PALLET_WIRE_COLOR = "forestgreen"
+_REC_NP_BOX_FILL_COLOR = "lightcyan"   # recommended NP box rows
+_REC_NP_BOX_WIRE_COLOR = "steelblue"
+
+# Legacy aliases kept so nothing else breaks
+_REC_FILL_COLOR = _REC_PALLET_FILL_COLOR
+_REC_WIRE_COLOR = _REC_PALLET_WIRE_COLOR
+
+
+def build_rec_block_visuals(
+    rec: Optional[Dict[str, Any]],
+    container: Dict[str, Any],
+    W: int,
+    gap_cm: int,
+) -> List[Dict[str, Any]]:
+    """
+    Convert a recommendation dict into individual renderable box dicts.
+
+    The new recommendation format stores flat lists 'tail_placements' and
+    'atop_placements' with pre-computed y_start_cm and z_base_cm, so no
+    cursor reconstruction is needed here.
+    """
+    if rec is None:
+        return []
+
+    visuals: List[Dict[str, Any]] = []
+
+    all_placements = (
+        rec.get("tail_placements", []) + rec.get("atop_placements", [])
+    )
+
+    for p in all_placements:
+        is_np = p.get("type") == "np_box"
+        fill_color = _REC_NP_BOX_FILL_COLOR if is_np else _REC_PALLET_FILL_COLOR
+        wire_color = _REC_NP_BOX_WIRE_COLOR if is_np else _REC_PALLET_WIRE_COLOR
+
+        if is_np:
+            n_units = p.get("units_per_placement", p.get("n_across", 1))
+            label   = f"+{n_units}b"
+        else:
+            ppb   = p.get("pallets_per_block", 0)
+            label = f"+{ppb}p"
+
+        visuals.append({
+            "x":               0,
+            "y":               p["y_start_cm"],
+            "z":               p["z_base_cm"],
+            "w":               W,
+            "l":               p["length_cm"],
+            "h":               p["height_cm"],
+            "color":           fill_color,
+            "wire_color":      wire_color,
+            "zone":            p.get("zone", "tail"),
+            "type":            p.get("type", "pallet"),
+            "block_type_key":  p["key"],
+            "pallets_per_block": p.get("pallets_per_block", 0),
+            "n_boxes":         n_units if is_np else 0,
+            "label":           label,
+        })
+
+    return visuals
+
+
+# ------------------------------------------------------------
 # Main 3D plotting function (refactored from your original)
 # ------------------------------------------------------------
 
-def plot_boxes_3d(W, L, H, boxes, box_zone_visuals=None, title=None):
+def plot_boxes_3d(W, L, H, boxes, box_zone_visuals=None, rec_box_visuals=None, title=None):
     fig = plt.figure(figsize=(12, 7))
     ax = fig.add_subplot(111, projection="3d")
 
@@ -220,6 +288,28 @@ def plot_boxes_3d(W, L, H, boxes, box_zone_visuals=None, title=None):
                     color="darkorange", fontsize=7,
                     ha="center", va="bottom", fontweight="bold")
 
+    # --- Recommended additions ---
+    if rec_box_visuals:
+        for rb in rec_box_visuals:
+            x, y, z = rb["x"], rb["y"], rb["z"]
+            w, l, h = rb["w"], rb["l"], rb["h"]
+            wc = rb.get("wire_color", _REC_PALLET_WIRE_COLOR)
+
+            # Dotted wireframe — green for pallets, blue for NP box rows
+            _draw_box_wireframe(ax, x, y, z, w, l, h,
+                                color=wc, linestyle=":", linewidth=1.5)
+
+            # Semi-transparent fill
+            ax.bar3d(x, y, z, w, l, h,
+                     alpha=0.28, color=rb["color"],
+                     edgecolor="none", shade=False)
+
+            # Label at block centre
+            ax.text(x + w / 2, y + l / 2, z + h / 2,
+                    rb["label"],
+                    color=wc, fontsize=8,
+                    ha="center", va="center", fontweight="bold")
+
     ax.set_xlabel("X — container width (cm)")
     ax.set_ylabel("Y — container length (cm)")
     ax.set_zlabel("Z — height (cm)")
@@ -252,6 +342,42 @@ def plot_boxes_3d(W, L, H, boxes, box_zone_visuals=None, title=None):
         legend_lines.append("")  # blank separator
         for bz in box_zone_visuals:
             legend_lines.append(bz["legend_line"])
+
+    # Append recommended block legend entries
+    if rec_box_visuals:
+        legend_lines.append("")
+        legend_lines.append("  ++ RECOMMENDED ADDITIONS:")
+
+        # Tally counts and units separately for pallets and NP boxes
+        pal_counts: dict = {}
+        pal_units:  dict = {}
+        np_counts:  dict = {}
+        np_units:   dict = {}
+        for rb in rec_box_visuals:
+            k = (rb["block_type_key"], rb.get("zone", ""))
+            if rb.get("type") == "np_box":
+                np_counts[k] = np_counts.get(k, 0) + 1
+                np_units[k]  = np_units.get(k, 0)  + rb.get("n_boxes", 0)
+            else:
+                pal_counts[k] = pal_counts.get(k, 0) + 1
+                pal_units[k]  = pal_units.get(k, 0)  + rb.get("pallets_per_block", 0)
+
+        seen_rec: set = set()
+        for rb in rec_box_visuals:
+            k = (rb["block_type_key"], rb.get("zone", ""))
+            if k in seen_rec:
+                continue
+            seen_rec.add(k)
+            if rb.get("type") == "np_box":
+                legend_lines.append(
+                    f"     (boxes) {np_counts[k]}× {k[0]}"
+                    f"  →  +{np_units[k]} boxes  [{k[1]}]"
+                )
+            else:
+                legend_lines.append(
+                    f"     (pallet) {pal_counts[k]}× {k[0]}"
+                    f"  →  +{pal_units[k]} pal  [{k[1]}]"
+                )
 
     fig.text(
         0.02,
@@ -381,19 +507,25 @@ def build_pallet_boxes_from_row_blocks(container_rows, container_width_cm, gap_c
     return pallet_boxes
 
 
-def plot_row_block_container_pallets(container_info, W, L, H, gap_cm=5):
-    """Plot a single container showing individual pallets + NP box zones."""
+def plot_row_block_container_pallets(container_info, W, L, H, gap_cm=5, rec=None):
+    """Plot a single container showing individual pallets + NP box zones + recommended additions."""
     rows = container_info.get("rows", [])
     boxes = build_pallet_boxes_from_row_blocks(rows, W, gap_cm=gap_cm)
     box_zone_visuals = build_box_zone_visuals(container_info.get("box_zones"))
+    rec_box_visuals  = build_rec_block_visuals(rec, container_info, W, gap_cm)
     title = f"Container {container_info.get('container_index','')} — Pallet + NP Box View"
-    plot_boxes_3d(W, L, H, boxes, box_zone_visuals=box_zone_visuals, title=title)
+    plot_boxes_3d(W, L, H, boxes,
+                  box_zone_visuals=box_zone_visuals,
+                  rec_box_visuals=rec_box_visuals,
+                  title=title)
     return boxes
 
 
-def plot_all_row_block_containers_pallets(containers, W, L, H, gap_cm=5):
+def plot_all_row_block_containers_pallets(containers, W, L, H, gap_cm=5, recs=None):
     """Plot each container showing individual pallets (colored by row-block)."""
+    recs_by_idx = {r["container_index"]: r for r in (recs or [])}
     all_boxes = []
     for c in containers:
-        all_boxes.append(plot_row_block_container_pallets(c, W, L, H, gap_cm=gap_cm))
+        rec = recs_by_idx.get(c.get("container_index"))
+        all_boxes.append(plot_row_block_container_pallets(c, W, L, H, gap_cm=gap_cm, rec=rec))
     return all_boxes

@@ -507,6 +507,10 @@ def parse_pallet_excel_v3(
         "Weight", "weight"
     ])
 
+    col_price_fob = _find_col_optional(df, [
+        "Item price FOB", "price fob", "fob price", "item price", "unit price",
+    ])
+
     # Exclude NP (loose box) rows — handled separately by parse_np_boxes_excel_v3
     col_type_code = _find_col_optional(df, ["Pallet size"])
     if col_type_code:
@@ -546,6 +550,14 @@ def parse_pallet_excel_v3(
             except Exception:
                 weight_kg = None
 
+        # NEW: parse FOB price (best-effort)
+        price_fob: Optional[float] = None
+        if col_price_fob and pd.notna(row.get(col_price_fob)):
+            try:
+                price_fob = float(str(row[col_price_fob]).strip().replace(",", "."))
+            except Exception:
+                price_fob = None
+
         # Choose a human-readable label
         label_parts = []
         if col_productname and pd.notna(row[col_productname]):
@@ -567,6 +579,7 @@ def parse_pallet_excel_v3(
             "label": pallet_label,
             # NEW
             "weight_kg": weight_kg,
+            "price_fob": price_fob,
         }
         # Keep any useful ids if present
         if col_barcode and pd.notna(row[col_barcode]):
@@ -594,6 +607,7 @@ def parse_pallet_excel_v3(
                     "height": H_cm,
                     # NEW
                     "weight_kg": weight_kg,
+                    "price_fob": price_fob,
                 }
                 if col_productname and pd.notna(row[col_productname]):
                     meta["productname"] = str(row[col_productname]).strip()

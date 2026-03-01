@@ -1,0 +1,1747 @@
+[
+  {
+    "container_index": 1,
+    "used_length_cm": 1201,
+    "leftover_before_cm": 2,
+    "leftover_after_cm": 2,
+    "fill_rate_pct": 0.0,
+    "tail_placements": [],
+    "atop_placements": [
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 1124,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      }
+    ],
+    "tail_summary": {
+      "pallet_blocks": [],
+      "np_box_rows": [],
+      "total_pallets": 0,
+      "total_np_boxes": 0
+    },
+    "atop_summary": {
+      "pallet_blocks": [],
+      "np_box_rows": [
+        {
+          "label": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+          "length_cm": 56,
+          "height_cm": 66,
+          "n_across": 4,
+          "count": 1,
+          "total_boxes": 4
+        }
+      ],
+      "total_pallets": 0,
+      "total_np_boxes": 4
+    },
+    "total_pallets_to_add": 0,
+    "total_np_boxes_to_add": 4
+  },
+  {
+    "container_index": 2,
+    "used_length_cm": 1195,
+    "leftover_before_cm": 8,
+    "leftover_after_cm": 8,
+    "fill_rate_pct": 0.0,
+    "tail_placements": [],
+    "atop_placements": [],
+    "tail_summary": {
+      "pallet_blocks": [],
+      "np_box_rows": [],
+      "total_pallets": 0,
+      "total_np_boxes": 0
+    },
+    "atop_summary": {
+      "pallet_blocks": [],
+      "np_box_rows": [],
+      "total_pallets": 0,
+      "total_np_boxes": 0
+    },
+    "total_pallets_to_add": 0,
+    "total_np_boxes_to_add": 0
+  },
+  {
+    "container_index": 3,
+    "used_length_cm": 1195,
+    "leftover_before_cm": 8,
+    "leftover_after_cm": 8,
+    "fill_rate_pct": 0.0,
+    "tail_placements": [],
+    "atop_placements": [],
+    "tail_summary": {
+      "pallet_blocks": [],
+      "np_box_rows": [],
+      "total_pallets": 0,
+      "total_np_boxes": 0
+    },
+    "atop_summary": {
+      "pallet_blocks": [],
+      "np_box_rows": [],
+      "total_pallets": 0,
+      "total_np_boxes": 0
+    },
+    "total_pallets_to_add": 0,
+    "total_np_boxes_to_add": 0
+  },
+  {
+    "container_index": 4,
+    "used_length_cm": 1195,
+    "leftover_before_cm": 8,
+    "leftover_after_cm": 8,
+    "fill_rate_pct": 0.0,
+    "tail_placements": [],
+    "atop_placements": [],
+    "tail_summary": {
+      "pallet_blocks": [],
+      "np_box_rows": [],
+      "total_pallets": 0,
+      "total_np_boxes": 0
+    },
+    "atop_summary": {
+      "pallet_blocks": [],
+      "np_box_rows": [],
+      "total_pallets": 0,
+      "total_np_boxes": 0
+    },
+    "total_pallets_to_add": 0,
+    "total_np_boxes_to_add": 0
+  },
+  {
+    "container_index": 5,
+    "used_length_cm": 1195,
+    "leftover_before_cm": 8,
+    "leftover_after_cm": 8,
+    "fill_rate_pct": 0.0,
+    "tail_placements": [],
+    "atop_placements": [],
+    "tail_summary": {
+      "pallet_blocks": [],
+      "np_box_rows": [],
+      "total_pallets": 0,
+      "total_np_boxes": 0
+    },
+    "atop_summary": {
+      "pallet_blocks": [],
+      "np_box_rows": [],
+      "total_pallets": 0,
+      "total_np_boxes": 0
+    },
+    "total_pallets_to_add": 0,
+    "total_np_boxes_to_add": 0
+  },
+  {
+    "container_index": 6,
+    "used_length_cm": 1143,
+    "leftover_before_cm": 60,
+    "leftover_after_cm": 9,
+    "fill_rate_pct": 85.0,
+    "tail_placements": [
+      {
+        "type": "np_box",
+        "key": "Bravo pot round l. grey zinc finish - h40xd45cm | [8720362378730]",
+        "length_cm": 46,
+        "height_cm": 87,
+        "pallets_per_block": 0,
+        "units_per_placement": 5,
+        "n_across": 5,
+        "box_dims": [
+          46,
+          46,
+          87
+        ],
+        "y_start_cm": 1148,
+        "z_base_cm": 0,
+        "zone": "tail"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 1143,
+        "z_base_cm": 87,
+        "zone": "tail"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 1143,
+        "z_base_cm": 153,
+        "zone": "tail"
+      }
+    ],
+    "atop_placements": [
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 0,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 82,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 164,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 246,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 328,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 410,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 492,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 574,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 656,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 738,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 820,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 902,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 984,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 1066,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      }
+    ],
+    "tail_summary": {
+      "pallet_blocks": [],
+      "np_box_rows": [
+        {
+          "label": "Bravo pot round l. grey zinc finish - h40xd45cm | [8720362378730]",
+          "length_cm": 46,
+          "height_cm": 87,
+          "n_across": 5,
+          "count": 1,
+          "total_boxes": 5
+        },
+        {
+          "label": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+          "length_cm": 56,
+          "height_cm": 66,
+          "n_across": 4,
+          "count": 2,
+          "total_boxes": 8
+        }
+      ],
+      "total_pallets": 0,
+      "total_np_boxes": 13
+    },
+    "atop_summary": {
+      "pallet_blocks": [],
+      "np_box_rows": [
+        {
+          "label": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+          "length_cm": 56,
+          "height_cm": 66,
+          "n_across": 4,
+          "count": 14,
+          "total_boxes": 56
+        }
+      ],
+      "total_pallets": 0,
+      "total_np_boxes": 56
+    },
+    "total_pallets_to_add": 0,
+    "total_np_boxes_to_add": 69
+  },
+  {
+    "container_index": 7,
+    "used_length_cm": 1143,
+    "leftover_before_cm": 60,
+    "leftover_after_cm": 9,
+    "fill_rate_pct": 85.0,
+    "tail_placements": [
+      {
+        "type": "np_box",
+        "key": "Bravo pot round l. grey zinc finish - h40xd45cm | [8720362378730]",
+        "length_cm": 46,
+        "height_cm": 87,
+        "pallets_per_block": 0,
+        "units_per_placement": 5,
+        "n_across": 5,
+        "box_dims": [
+          46,
+          46,
+          87
+        ],
+        "y_start_cm": 1148,
+        "z_base_cm": 0,
+        "zone": "tail"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 1143,
+        "z_base_cm": 87,
+        "zone": "tail"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 1143,
+        "z_base_cm": 153,
+        "zone": "tail"
+      }
+    ],
+    "atop_placements": [
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 0,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 82,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 164,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 246,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 328,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 410,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 492,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 574,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 656,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 738,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 820,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 902,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 984,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 1066,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      }
+    ],
+    "tail_summary": {
+      "pallet_blocks": [],
+      "np_box_rows": [
+        {
+          "label": "Bravo pot round l. grey zinc finish - h40xd45cm | [8720362378730]",
+          "length_cm": 46,
+          "height_cm": 87,
+          "n_across": 5,
+          "count": 1,
+          "total_boxes": 5
+        },
+        {
+          "label": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+          "length_cm": 56,
+          "height_cm": 66,
+          "n_across": 4,
+          "count": 2,
+          "total_boxes": 8
+        }
+      ],
+      "total_pallets": 0,
+      "total_np_boxes": 13
+    },
+    "atop_summary": {
+      "pallet_blocks": [],
+      "np_box_rows": [
+        {
+          "label": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+          "length_cm": 56,
+          "height_cm": 66,
+          "n_across": 4,
+          "count": 14,
+          "total_boxes": 56
+        }
+      ],
+      "total_pallets": 0,
+      "total_np_boxes": 56
+    },
+    "total_pallets_to_add": 0,
+    "total_np_boxes_to_add": 69
+  },
+  {
+    "container_index": 8,
+    "used_length_cm": 1143,
+    "leftover_before_cm": 60,
+    "leftover_after_cm": 9,
+    "fill_rate_pct": 85.0,
+    "tail_placements": [
+      {
+        "type": "np_box",
+        "key": "Bravo pot round l. grey zinc finish - h40xd45cm | [8720362378730]",
+        "length_cm": 46,
+        "height_cm": 87,
+        "pallets_per_block": 0,
+        "units_per_placement": 5,
+        "n_across": 5,
+        "box_dims": [
+          46,
+          46,
+          87
+        ],
+        "y_start_cm": 1148,
+        "z_base_cm": 0,
+        "zone": "tail"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 1143,
+        "z_base_cm": 87,
+        "zone": "tail"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 1143,
+        "z_base_cm": 153,
+        "zone": "tail"
+      }
+    ],
+    "atop_placements": [
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 0,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 82,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 164,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 246,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 328,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 410,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 492,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 574,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 656,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 738,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 820,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 902,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 984,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 1066,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      }
+    ],
+    "tail_summary": {
+      "pallet_blocks": [],
+      "np_box_rows": [
+        {
+          "label": "Bravo pot round l. grey zinc finish - h40xd45cm | [8720362378730]",
+          "length_cm": 46,
+          "height_cm": 87,
+          "n_across": 5,
+          "count": 1,
+          "total_boxes": 5
+        },
+        {
+          "label": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+          "length_cm": 56,
+          "height_cm": 66,
+          "n_across": 4,
+          "count": 2,
+          "total_boxes": 8
+        }
+      ],
+      "total_pallets": 0,
+      "total_np_boxes": 13
+    },
+    "atop_summary": {
+      "pallet_blocks": [],
+      "np_box_rows": [
+        {
+          "label": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+          "length_cm": 56,
+          "height_cm": 66,
+          "n_across": 4,
+          "count": 14,
+          "total_boxes": 56
+        }
+      ],
+      "total_pallets": 0,
+      "total_np_boxes": 56
+    },
+    "total_pallets_to_add": 0,
+    "total_np_boxes_to_add": 69
+  },
+  {
+    "container_index": 9,
+    "used_length_cm": 159,
+    "leftover_before_cm": 1044,
+    "leftover_after_cm": 2,
+    "fill_rate_pct": 99.8,
+    "tail_placements": [
+      {
+        "type": "pallet",
+        "key": "115x77|>130",
+        "length_cm": 115,
+        "height_cm": 144,
+        "pallets_per_block": 2,
+        "units_per_placement": 2,
+        "footprint": [
+          115,
+          77
+        ],
+        "height_band": ">130",
+        "stack_count": 1,
+        "y_start_cm": 164,
+        "z_base_cm": 0,
+        "zone": "tail"
+      },
+      {
+        "type": "pallet",
+        "key": "115x77|>130",
+        "length_cm": 115,
+        "height_cm": 144,
+        "pallets_per_block": 2,
+        "units_per_placement": 2,
+        "footprint": [
+          115,
+          77
+        ],
+        "height_band": ">130",
+        "stack_count": 1,
+        "y_start_cm": 284,
+        "z_base_cm": 0,
+        "zone": "tail"
+      },
+      {
+        "type": "pallet",
+        "key": "115x77|>130",
+        "length_cm": 115,
+        "height_cm": 144,
+        "pallets_per_block": 2,
+        "units_per_placement": 2,
+        "footprint": [
+          115,
+          77
+        ],
+        "height_band": ">130",
+        "stack_count": 1,
+        "y_start_cm": 404,
+        "z_base_cm": 0,
+        "zone": "tail"
+      },
+      {
+        "type": "pallet",
+        "key": "115x77|>130",
+        "length_cm": 115,
+        "height_cm": 144,
+        "pallets_per_block": 2,
+        "units_per_placement": 2,
+        "footprint": [
+          115,
+          77
+        ],
+        "height_band": ">130",
+        "stack_count": 1,
+        "y_start_cm": 524,
+        "z_base_cm": 0,
+        "zone": "tail"
+      },
+      {
+        "type": "pallet",
+        "key": "115x77|>130",
+        "length_cm": 115,
+        "height_cm": 144,
+        "pallets_per_block": 2,
+        "units_per_placement": 2,
+        "footprint": [
+          115,
+          77
+        ],
+        "height_band": ">130",
+        "stack_count": 1,
+        "y_start_cm": 644,
+        "z_base_cm": 0,
+        "zone": "tail"
+      },
+      {
+        "type": "pallet",
+        "key": "115x77|>130",
+        "length_cm": 115,
+        "height_cm": 144,
+        "pallets_per_block": 2,
+        "units_per_placement": 2,
+        "footprint": [
+          115,
+          77
+        ],
+        "height_band": ">130",
+        "stack_count": 1,
+        "y_start_cm": 764,
+        "z_base_cm": 0,
+        "zone": "tail"
+      },
+      {
+        "type": "pallet",
+        "key": "115x77|>130",
+        "length_cm": 115,
+        "height_cm": 144,
+        "pallets_per_block": 2,
+        "units_per_placement": 2,
+        "footprint": [
+          115,
+          77
+        ],
+        "height_band": ">130",
+        "stack_count": 1,
+        "y_start_cm": 884,
+        "z_base_cm": 0,
+        "zone": "tail"
+      },
+      {
+        "type": "pallet",
+        "key": "115x77|>130",
+        "length_cm": 115,
+        "height_cm": 144,
+        "pallets_per_block": 2,
+        "units_per_placement": 2,
+        "footprint": [
+          115,
+          77
+        ],
+        "height_band": ">130",
+        "stack_count": 1,
+        "y_start_cm": 1004,
+        "z_base_cm": 0,
+        "zone": "tail"
+      },
+      {
+        "type": "pallet",
+        "key": "115x77|>130",
+        "length_cm": 77,
+        "height_cm": 144,
+        "pallets_per_block": 2,
+        "units_per_placement": 2,
+        "footprint": [
+          115,
+          77
+        ],
+        "height_band": ">130",
+        "stack_count": 1,
+        "y_start_cm": 1124,
+        "z_base_cm": 0,
+        "zone": "tail"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 159,
+        "z_base_cm": 144,
+        "zone": "tail"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 220,
+        "z_base_cm": 144,
+        "zone": "tail"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 281,
+        "z_base_cm": 144,
+        "zone": "tail"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 342,
+        "z_base_cm": 144,
+        "zone": "tail"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 403,
+        "z_base_cm": 144,
+        "zone": "tail"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 464,
+        "z_base_cm": 144,
+        "zone": "tail"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 525,
+        "z_base_cm": 144,
+        "zone": "tail"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 586,
+        "z_base_cm": 144,
+        "zone": "tail"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 647,
+        "z_base_cm": 144,
+        "zone": "tail"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 708,
+        "z_base_cm": 144,
+        "zone": "tail"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 769,
+        "z_base_cm": 144,
+        "zone": "tail"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 830,
+        "z_base_cm": 144,
+        "zone": "tail"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 891,
+        "z_base_cm": 144,
+        "zone": "tail"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 952,
+        "z_base_cm": 144,
+        "zone": "tail"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 1013,
+        "z_base_cm": 144,
+        "zone": "tail"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 1074,
+        "z_base_cm": 144,
+        "zone": "tail"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 1135,
+        "z_base_cm": 144,
+        "zone": "tail"
+      }
+    ],
+    "atop_placements": [
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 0,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      },
+      {
+        "type": "np_box",
+        "key": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+        "length_cm": 56,
+        "height_cm": 66,
+        "pallets_per_block": 0,
+        "units_per_placement": 4,
+        "n_across": 4,
+        "box_dims": [
+          56,
+          56,
+          66
+        ],
+        "y_start_cm": 82,
+        "z_base_cm": 144,
+        "zone": "atop",
+        "above_row_block_type": "115x77|>130"
+      }
+    ],
+    "tail_summary": {
+      "pallet_blocks": [
+        {
+          "block_type_key": "115x77|>130",
+          "length_cm": 115,
+          "height_cm": 144,
+          "pallets_per_block": 2,
+          "count": 8,
+          "total_pallets": 16,
+          "est_value_fob": null
+        },
+        {
+          "block_type_key": "115x77|>130",
+          "length_cm": 77,
+          "height_cm": 144,
+          "pallets_per_block": 2,
+          "count": 1,
+          "total_pallets": 2,
+          "est_value_fob": null
+        }
+      ],
+      "np_box_rows": [
+        {
+          "label": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+          "length_cm": 56,
+          "height_cm": 66,
+          "n_across": 4,
+          "count": 17,
+          "total_boxes": 68
+        }
+      ],
+      "total_pallets": 18,
+      "total_np_boxes": 68
+    },
+    "atop_summary": {
+      "pallet_blocks": [],
+      "np_box_rows": [
+        {
+          "label": "Bravo bowl round l. grey zinc finish - h26xd55cm | [8718861700367]",
+          "length_cm": 56,
+          "height_cm": 66,
+          "n_across": 4,
+          "count": 2,
+          "total_boxes": 8
+        }
+      ],
+      "total_pallets": 0,
+      "total_np_boxes": 8
+    },
+    "total_pallets_to_add": 18,
+    "total_np_boxes_to_add": 76
+  }
+]

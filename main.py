@@ -26,9 +26,11 @@ from utils.parse_xlsx import parse_pallet_excel_v3, parse_np_boxes_excel_v3
 from utils.oneDbuildblocks import build_row_blocks_from_pallets
 from models.A_1D_multi_container_placement_chatGPT import RowBlock1DOrderModel
 from utils.visualize_row_blocks import plot_all_row_block_containers_pallets
+from utils.recommend import recommend_fill_containers, print_recommendations
 from config import (
     CONTAINER_LENGTH_CM, CONTAINER_WIDTH_CM, CONTAINER_HEIGHT_CM,
     CONTAINER_DOOR_HEIGHT_CM, CONTAINER_MAX_WEIGHT_KG, ROW_GAP_CM,
+    RECOMMEND_OBJECTIVE, RECOMMEND_SECONDARY_OBJECTIVE,
 )
 
 
@@ -450,7 +452,27 @@ def main(
             print("  All NP boxes assigned.")
 
     # ------------------------------------------------------------
-    # 8) Final output
+    # 8) Fill recommendations
+    # ------------------------------------------------------------
+    _log(out_dir, "=== STEP 8: Fill Recommendations ===")
+    recs = recommend_fill_containers(
+        containers,
+        Hdoor_cm=Hdoor_cm,
+        H_container_cm=CONTAINER_HEIGHT_CM,
+        W=CONTAINER_WIDTH_CM,
+        gap_cm=ROW_GAP_CM,
+        objective=RECOMMEND_OBJECTIVE,
+        secondary=RECOMMEND_SECONDARY_OBJECTIVE,
+        np_boxes=np_boxes if np_boxes else None,
+    )
+    print_recommendations(recs, RECOMMEND_OBJECTIVE)
+    recs_path = out_dir / "recommendations.json"
+    with recs_path.open("w", encoding="utf-8") as f:
+        json.dump(recs, f, ensure_ascii=False, indent=2)
+    _log(out_dir, f"Wrote recommendations: {recs_path}")
+
+    # ------------------------------------------------------------
+    # 9) Final output
     # ------------------------------------------------------------
     _log(out_dir, "=== ALL CONTAINERS SOLVED ===")
     print(f"Total containers used: {len(containers)}")
@@ -494,7 +516,7 @@ def main(
     # ------------------------------------------------------------
     # containers = main("sample_instances/input_large.xlsx")
     if not no_plot:
-        plot_all_row_block_containers_pallets(containers, W=CONTAINER_WIDTH_CM, L=CONTAINER_LENGTH_CM, H=CONTAINER_HEIGHT_CM)
+        plot_all_row_block_containers_pallets(containers, W=CONTAINER_WIDTH_CM, L=CONTAINER_LENGTH_CM, H=CONTAINER_HEIGHT_CM, recs=recs)
         # Keep plot windows open when running as a script
         try:
             import matplotlib.pyplot as plt
