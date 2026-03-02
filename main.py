@@ -31,7 +31,9 @@ from utils.export_excel import export_excel_report
 from config import (
     CONTAINER_LENGTH_CM, CONTAINER_WIDTH_CM, CONTAINER_HEIGHT_CM,
     CONTAINER_DOOR_HEIGHT_CM, CONTAINER_MAX_WEIGHT_KG, ROW_GAP_CM,
+    SOLVER_TIME_LIMIT_SEC,
     RECOMMEND_OBJECTIVE, RECOMMEND_SECONDARY_OBJECTIVE,
+    _CONFIG_SOURCE, _USING_DEFAULTS,
 )
 
 
@@ -58,6 +60,50 @@ def _log(out_dir: Path, msg: str) -> None:
     print(line)
     with (out_dir / "run.log").open("a", encoding="utf-8") as f:
         f.write(line + "\n")
+
+
+def _log_assumptions(out_dir: Path) -> None:
+    """Print and log every assumption the optimizer makes so nothing is silent."""
+    sep = "=" * 68
+    lines = [
+        sep,
+        "  OPTIMIZER ASSUMPTIONS & CONFIGURATION",
+        sep,
+        "",
+        "  Config source:",
+        f"    {'Built-in defaults (optimizer_config.json not found — see warning above)' if _USING_DEFAULTS else _CONFIG_SOURCE}",
+        "",
+        "  Container dimensions (internal usable space):",
+        f"    Length : {CONTAINER_LENGTH_CM} cm",
+        f"    Width  : {CONTAINER_WIDTH_CM} cm",
+        f"    Height : {CONTAINER_HEIGHT_CM} cm",
+        f"    Door H : {CONTAINER_DOOR_HEIGHT_CM} cm  ← ceiling constraint for loading",
+        f"    Max wt : {CONTAINER_MAX_WEIGHT_KG:,} kg",
+        "",
+        "  Packing parameters:",
+        f"    Row gap         : {ROW_GAP_CM} cm  (fork-lift clearance between pallet rows)",
+        f"    Solver time cap : {SOLVER_TIME_LIMIT_SEC} s per container",
+        "",
+        "  Recommendation objective:",
+        f"    Primary   : {RECOMMEND_OBJECTIVE}",
+        f"    Secondary : {RECOMMEND_SECONDARY_OBJECTIVE}",
+        "",
+        "  HARDCODED PALLET STANDARDS (not user-configurable — requires code change):",
+        "    Recognised footprints : 115×115 cm, 115×108 cm, 115×77 cm, 77×77 cm",
+        "    Footprint tolerance   : ±2 cm  (raw dims snapped to nearest standard)",
+        "    Height bands          : <66 cm, 66–89 cm, 89–130 cm, >130 cm, 230 cm",
+        "    Stacking rules per band are fixed (see utils/oneDbuildblocks.py)",
+        "",
+        "  HARDCODED COLUMN NAME ALIASES (Excel parsing):",
+        "    Pallet size  : 'Pallet and packing size', 'Pallet size', 'size'",
+        "    Qty          : 'External Packaging Quantity', 'Total order full pallets', ...",
+        "    Weight       : 'External Net weight', 'Net weight', 'Weight', ...",
+        "    NP type flag : 'NP' anywhere in pallet-type column triggers loose-box logic",
+        "",
+        sep,
+    ]
+    for line in lines:
+        _log(out_dir, line)
 
 
 def assign_boxes_to_containers(
@@ -226,12 +272,13 @@ def main(
     Wmax_kg: int = CONTAINER_MAX_WEIGHT_KG,
     Hdoor_cm: int = CONTAINER_DOOR_HEIGHT_CM,
     solver: str = "ortools",
-    time_limit: int = 10,
+    time_limit: int = SOLVER_TIME_LIMIT_SEC,
     base_dir: str | None = None,
     no_plot: bool = False,
 ):
     base = _base_dir(base_dir)
     out_dir = _setup_outputs(base)
+    _log_assumptions(out_dir)
 
     excel_p = Path(excel_path)
     if not excel_p.is_absolute():
@@ -269,9 +316,6 @@ def main(
     )
 
 
-
-    print("DEBUG pallet heights unique:", sorted(set(pm["height"] for pm in meta_per_pallet))[:20])
-    print("DEBUG block heights unique:", sorted(set(b.height_cm for b in blocks))[:20])
 
 
 

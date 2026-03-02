@@ -348,3 +348,592 @@
 [2026-03-01 22:19:41] Wrote summary: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/summary.txt
 [2026-03-01 22:19:41] === STEP 10: Excel Report ===
 [2026-03-01 22:19:41] Wrote Excel report: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/report.xlsx
+[2026-03-01 22:53:19] Base directory: /Users/yolina/Desktop/Container_packing_optimizer/app
+[2026-03-01 22:53:19] Excel input: /Users/yolina/Desktop/Container_packing_optimizer/app/sample_instances/input_final.xlsx
+[2026-03-01 22:53:19] === STEP 1: Parsing Excel ===
+[2026-03-01 22:53:19] === STEP 2: Building Row-Blocks ===
+[2026-03-01 22:53:19] === STEP 3: Solving Containers ===
+[2026-03-01 22:53:21] === STEP 7: Assigning NP Boxes ===
+[2026-03-01 22:53:21] === STEP 8: Fill Recommendations ===
+[2026-03-01 22:53:21] Wrote recommendations: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/recommendations.json
+[2026-03-01 22:53:21] === ALL CONTAINERS SOLVED ===
+[2026-03-01 22:53:21] Wrote containers: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/containers.json
+[2026-03-01 22:53:21] Wrote summary: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/summary.txt
+[2026-03-01 22:53:21] === STEP 10: Excel Report ===
+[2026-03-01 22:53:21] Wrote Excel report: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/report.xlsx
+[2026-03-01 23:00:36] ====================================================================
+[2026-03-01 23:00:36]   OPTIMIZER ASSUMPTIONS & CONFIGURATION
+[2026-03-01 23:00:36] ====================================================================
+[2026-03-01 23:00:36] 
+[2026-03-01 23:00:36]   Config source:
+[2026-03-01 23:00:36]     /Users/yolina/Desktop/Container_packing_optimizer/optimizer_config.json
+[2026-03-01 23:00:36] 
+[2026-03-01 23:00:36]   Container dimensions (internal usable space):
+[2026-03-01 23:00:36]     Length : 1203 cm
+[2026-03-01 23:00:36]     Width  : 235 cm
+[2026-03-01 23:00:36]     Height : 270 cm
+[2026-03-01 23:00:36]     Door H : 250 cm  ← ceiling constraint for loading
+[2026-03-01 23:00:36]     Max wt : 18,000 kg
+[2026-03-01 23:00:36] 
+[2026-03-01 23:00:36]   Packing parameters:
+[2026-03-01 23:00:36]     Row gap         : 5 cm  (fork-lift clearance between pallet rows)
+[2026-03-01 23:00:36]     Solver time cap : 10 s per container
+[2026-03-01 23:00:36] 
+[2026-03-01 23:00:36]   Recommendation objective:
+[2026-03-01 23:00:36]     Primary   : min_leftover
+[2026-03-01 23:00:36]     Secondary : min_pallets
+[2026-03-01 23:00:36] 
+[2026-03-01 23:00:36]   HARDCODED PALLET STANDARDS (not user-configurable — requires code change):
+[2026-03-01 23:00:36]     Recognised footprints : 115×115 cm, 115×108 cm, 115×77 cm, 77×77 cm
+[2026-03-01 23:00:36]     Footprint tolerance   : ±2 cm  (raw dims snapped to nearest standard)
+[2026-03-01 23:00:36]     Height bands          : <66 cm, 66–89 cm, 89–130 cm, >130 cm, 230 cm
+[2026-03-01 23:00:36]     Stacking rules per band are fixed (see utils/oneDbuildblocks.py)
+[2026-03-01 23:00:36] 
+[2026-03-01 23:00:36]   HARDCODED COLUMN NAME ALIASES (Excel parsing):
+[2026-03-01 23:00:36]     Pallet size  : 'Pallet and packing size', 'Pallet size', 'size'
+[2026-03-01 23:00:36]     Qty          : 'External Packaging Quantity', 'Total order full pallets', ...
+[2026-03-01 23:00:36]     Weight       : 'External Net weight', 'Net weight', 'Weight', ...
+[2026-03-01 23:00:36]     NP type flag : 'NP' anywhere in pallet-type column triggers loose-box logic
+[2026-03-01 23:00:36] 
+[2026-03-01 23:00:36] ====================================================================
+[2026-03-01 23:00:36] Base directory: /Users/yolina/Desktop/Container_packing_optimizer/app
+[2026-03-01 23:00:36] Excel input: /Users/yolina/Desktop/Container_packing_optimizer/app/sample_instances/input_final.xlsx
+[2026-03-01 23:00:36] === STEP 1: Parsing Excel ===
+[2026-03-01 23:00:36] === STEP 2: Building Row-Blocks ===
+[2026-03-01 23:00:36] === STEP 3: Solving Containers ===
+[2026-03-01 23:00:38] === STEP 7: Assigning NP Boxes ===
+[2026-03-01 23:00:38] === STEP 8: Fill Recommendations ===
+[2026-03-01 23:00:38] Wrote recommendations: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/recommendations.json
+[2026-03-01 23:00:38] === ALL CONTAINERS SOLVED ===
+[2026-03-01 23:00:38] Wrote containers: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/containers.json
+[2026-03-01 23:00:38] Wrote summary: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/summary.txt
+[2026-03-01 23:00:38] === STEP 10: Excel Report ===
+[2026-03-01 23:00:38] Wrote Excel report: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/report.xlsx
+[2026-03-01 23:00:56] ====================================================================
+[2026-03-01 23:00:56]   OPTIMIZER ASSUMPTIONS & CONFIGURATION
+[2026-03-01 23:00:56] ====================================================================
+[2026-03-01 23:00:56] 
+[2026-03-01 23:00:56]   Config source:
+[2026-03-01 23:00:56]     /Users/yolina/Desktop/Container_packing_optimizer/optimizer_config.json
+[2026-03-01 23:00:56] 
+[2026-03-01 23:00:56]   Container dimensions (internal usable space):
+[2026-03-01 23:00:56]     Length : 1203 cm
+[2026-03-01 23:00:56]     Width  : 235 cm
+[2026-03-01 23:00:56]     Height : 270 cm
+[2026-03-01 23:00:56]     Door H : 250 cm  ← ceiling constraint for loading
+[2026-03-01 23:00:56]     Max wt : 18,000 kg
+[2026-03-01 23:00:56] 
+[2026-03-01 23:00:56]   Packing parameters:
+[2026-03-01 23:00:56]     Row gap         : 5 cm  (fork-lift clearance between pallet rows)
+[2026-03-01 23:00:56]     Solver time cap : 10 s per container
+[2026-03-01 23:00:56] 
+[2026-03-01 23:00:56]   Recommendation objective:
+[2026-03-01 23:00:56]     Primary   : min_leftover
+[2026-03-01 23:00:56]     Secondary : min_pallets
+[2026-03-01 23:00:56] 
+[2026-03-01 23:00:56]   HARDCODED PALLET STANDARDS (not user-configurable — requires code change):
+[2026-03-01 23:00:56]     Recognised footprints : 115×115 cm, 115×108 cm, 115×77 cm, 77×77 cm
+[2026-03-01 23:00:56]     Footprint tolerance   : ±2 cm  (raw dims snapped to nearest standard)
+[2026-03-01 23:00:56]     Height bands          : <66 cm, 66–89 cm, 89–130 cm, >130 cm, 230 cm
+[2026-03-01 23:00:56]     Stacking rules per band are fixed (see utils/oneDbuildblocks.py)
+[2026-03-01 23:00:56] 
+[2026-03-01 23:00:56]   HARDCODED COLUMN NAME ALIASES (Excel parsing):
+[2026-03-01 23:00:56]     Pallet size  : 'Pallet and packing size', 'Pallet size', 'size'
+[2026-03-01 23:00:56]     Qty          : 'External Packaging Quantity', 'Total order full pallets', ...
+[2026-03-01 23:00:56]     Weight       : 'External Net weight', 'Net weight', 'Weight', ...
+[2026-03-01 23:00:56]     NP type flag : 'NP' anywhere in pallet-type column triggers loose-box logic
+[2026-03-01 23:00:56] 
+[2026-03-01 23:00:56] ====================================================================
+[2026-03-01 23:00:56] Base directory: /Users/yolina/Desktop/Container_packing_optimizer/app
+[2026-03-01 23:00:56] Excel input: /Users/yolina/Desktop/Container_packing_optimizer/app/sample_instances/input_final.xlsx
+[2026-03-01 23:00:56] === STEP 1: Parsing Excel ===
+[2026-03-01 23:00:56] === STEP 2: Building Row-Blocks ===
+[2026-03-01 23:00:56] === STEP 3: Solving Containers ===
+[2026-03-01 23:00:58] === STEP 7: Assigning NP Boxes ===
+[2026-03-01 23:00:58] === STEP 8: Fill Recommendations ===
+[2026-03-01 23:00:58] Wrote recommendations: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/recommendations.json
+[2026-03-01 23:00:58] === ALL CONTAINERS SOLVED ===
+[2026-03-01 23:00:58] Wrote containers: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/containers.json
+[2026-03-01 23:00:58] Wrote summary: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/summary.txt
+[2026-03-01 23:00:58] === STEP 10: Excel Report ===
+[2026-03-01 23:00:59] Wrote Excel report: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/report.xlsx
+[2026-03-01 23:08:00] ====================================================================
+[2026-03-01 23:08:00]   OPTIMIZER ASSUMPTIONS & CONFIGURATION
+[2026-03-01 23:08:00] ====================================================================
+[2026-03-01 23:08:00] 
+[2026-03-01 23:08:00]   Config source:
+[2026-03-01 23:08:00]     /Users/yolina/Desktop/Container_packing_optimizer/optimizer_config.json
+[2026-03-01 23:08:00] 
+[2026-03-01 23:08:00]   Container dimensions (internal usable space):
+[2026-03-01 23:08:00]     Length : 1203 cm
+[2026-03-01 23:08:00]     Width  : 235 cm
+[2026-03-01 23:08:00]     Height : 270 cm
+[2026-03-01 23:08:00]     Door H : 250 cm  ← ceiling constraint for loading
+[2026-03-01 23:08:00]     Max wt : 18,000 kg
+[2026-03-01 23:08:00] 
+[2026-03-01 23:08:00]   Packing parameters:
+[2026-03-01 23:08:00]     Row gap         : 5 cm  (fork-lift clearance between pallet rows)
+[2026-03-01 23:08:00]     Solver time cap : 10 s per container
+[2026-03-01 23:08:00] 
+[2026-03-01 23:08:00]   Recommendation objective:
+[2026-03-01 23:08:00]     Primary   : min_leftover
+[2026-03-01 23:08:00]     Secondary : min_pallets
+[2026-03-01 23:08:00] 
+[2026-03-01 23:08:00]   HARDCODED PALLET STANDARDS (not user-configurable — requires code change):
+[2026-03-01 23:08:00]     Recognised footprints : 115×115 cm, 115×108 cm, 115×77 cm, 77×77 cm
+[2026-03-01 23:08:00]     Footprint tolerance   : ±2 cm  (raw dims snapped to nearest standard)
+[2026-03-01 23:08:00]     Height bands          : <66 cm, 66–89 cm, 89–130 cm, >130 cm, 230 cm
+[2026-03-01 23:08:00]     Stacking rules per band are fixed (see utils/oneDbuildblocks.py)
+[2026-03-01 23:08:00] 
+[2026-03-01 23:08:00]   HARDCODED COLUMN NAME ALIASES (Excel parsing):
+[2026-03-01 23:08:00]     Pallet size  : 'Pallet and packing size', 'Pallet size', 'size'
+[2026-03-01 23:08:00]     Qty          : 'External Packaging Quantity', 'Total order full pallets', ...
+[2026-03-01 23:08:00]     Weight       : 'External Net weight', 'Net weight', 'Weight', ...
+[2026-03-01 23:08:00]     NP type flag : 'NP' anywhere in pallet-type column triggers loose-box logic
+[2026-03-01 23:08:00] 
+[2026-03-01 23:08:00] ====================================================================
+[2026-03-01 23:08:00] Base directory: /Users/yolina/Desktop/Container_packing_optimizer/app
+[2026-03-01 23:08:00] Excel input: /Users/yolina/Desktop/Container_packing_optimizer/app/sample_instances/input_final.xlsx
+[2026-03-01 23:08:00] === STEP 1: Parsing Excel ===
+[2026-03-01 23:08:00] === STEP 2: Building Row-Blocks ===
+[2026-03-01 23:08:00] === STEP 3: Solving Containers ===
+[2026-03-01 23:08:01] === STEP 7: Assigning NP Boxes ===
+[2026-03-01 23:08:01] === STEP 8: Fill Recommendations ===
+[2026-03-01 23:08:01] Wrote recommendations: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/recommendations.json
+[2026-03-01 23:08:01] === ALL CONTAINERS SOLVED ===
+[2026-03-01 23:08:02] Wrote containers: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/containers.json
+[2026-03-01 23:08:02] Wrote summary: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/summary.txt
+[2026-03-01 23:08:02] === STEP 10: Excel Report ===
+[2026-03-01 23:08:02] Wrote Excel report: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/report.xlsx
+[2026-03-01 23:10:58] ====================================================================
+[2026-03-01 23:10:58]   OPTIMIZER ASSUMPTIONS & CONFIGURATION
+[2026-03-01 23:10:58] ====================================================================
+[2026-03-01 23:10:58] 
+[2026-03-01 23:10:58]   Config source:
+[2026-03-01 23:10:58]     /Users/yolina/Desktop/Container_packing_optimizer/optimizer_config.json
+[2026-03-01 23:10:58] 
+[2026-03-01 23:10:58]   Container dimensions (internal usable space):
+[2026-03-01 23:10:58]     Length : 1203 cm
+[2026-03-01 23:10:58]     Width  : 235 cm
+[2026-03-01 23:10:58]     Height : 270 cm
+[2026-03-01 23:10:58]     Door H : 250 cm  ← ceiling constraint for loading
+[2026-03-01 23:10:58]     Max wt : 18,000 kg
+[2026-03-01 23:10:58] 
+[2026-03-01 23:10:58]   Packing parameters:
+[2026-03-01 23:10:58]     Row gap         : 5 cm  (fork-lift clearance between pallet rows)
+[2026-03-01 23:10:58]     Solver time cap : 10 s per container
+[2026-03-01 23:10:58] 
+[2026-03-01 23:10:58]   Recommendation objective:
+[2026-03-01 23:10:58]     Primary   : min_leftover
+[2026-03-01 23:10:58]     Secondary : min_pallets
+[2026-03-01 23:10:58] 
+[2026-03-01 23:10:58]   HARDCODED PALLET STANDARDS (not user-configurable — requires code change):
+[2026-03-01 23:10:58]     Recognised footprints : 115×115 cm, 115×108 cm, 115×77 cm, 77×77 cm
+[2026-03-01 23:10:58]     Footprint tolerance   : ±2 cm  (raw dims snapped to nearest standard)
+[2026-03-01 23:10:58]     Height bands          : <66 cm, 66–89 cm, 89–130 cm, >130 cm, 230 cm
+[2026-03-01 23:10:58]     Stacking rules per band are fixed (see utils/oneDbuildblocks.py)
+[2026-03-01 23:10:58] 
+[2026-03-01 23:10:58]   HARDCODED COLUMN NAME ALIASES (Excel parsing):
+[2026-03-01 23:10:58]     Pallet size  : 'Pallet and packing size', 'Pallet size', 'size'
+[2026-03-01 23:10:58]     Qty          : 'External Packaging Quantity', 'Total order full pallets', ...
+[2026-03-01 23:10:58]     Weight       : 'External Net weight', 'Net weight', 'Weight', ...
+[2026-03-01 23:10:58]     NP type flag : 'NP' anywhere in pallet-type column triggers loose-box logic
+[2026-03-01 23:10:58] 
+[2026-03-01 23:10:58] ====================================================================
+[2026-03-01 23:10:58] Base directory: /Users/yolina/Desktop/Container_packing_optimizer/app
+[2026-03-01 23:10:58] Excel input: /Users/yolina/Desktop/Container_packing_optimizer/app/sample_instances/input_final.xlsx
+[2026-03-01 23:10:58] === STEP 1: Parsing Excel ===
+[2026-03-01 23:10:59] === STEP 2: Building Row-Blocks ===
+[2026-03-01 23:10:59] === STEP 3: Solving Containers ===
+[2026-03-01 23:11:01] === STEP 7: Assigning NP Boxes ===
+[2026-03-01 23:11:01] === STEP 8: Fill Recommendations ===
+[2026-03-01 23:11:01] Wrote recommendations: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/recommendations.json
+[2026-03-01 23:11:01] === ALL CONTAINERS SOLVED ===
+[2026-03-01 23:11:01] Wrote containers: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/containers.json
+[2026-03-01 23:11:01] Wrote summary: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/summary.txt
+[2026-03-01 23:11:01] === STEP 10: Excel Report ===
+[2026-03-01 23:11:01] Wrote Excel report: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/report.xlsx
+[2026-03-01 23:21:08] ====================================================================
+[2026-03-01 23:21:08]   OPTIMIZER ASSUMPTIONS & CONFIGURATION
+[2026-03-01 23:21:08] ====================================================================
+[2026-03-01 23:21:08] 
+[2026-03-01 23:21:08]   Config source:
+[2026-03-01 23:21:08]     /Users/yolina/Desktop/Container_packing_optimizer/optimizer_config.json
+[2026-03-01 23:21:08] 
+[2026-03-01 23:21:08]   Container dimensions (internal usable space):
+[2026-03-01 23:21:08]     Length : 1203 cm
+[2026-03-01 23:21:08]     Width  : 235 cm
+[2026-03-01 23:21:08]     Height : 270 cm
+[2026-03-01 23:21:08]     Door H : 250 cm  ← ceiling constraint for loading
+[2026-03-01 23:21:08]     Max wt : 18,000 kg
+[2026-03-01 23:21:08] 
+[2026-03-01 23:21:08]   Packing parameters:
+[2026-03-01 23:21:08]     Row gap         : 5 cm  (fork-lift clearance between pallet rows)
+[2026-03-01 23:21:08]     Solver time cap : 10 s per container
+[2026-03-01 23:21:08] 
+[2026-03-01 23:21:08]   Recommendation objective:
+[2026-03-01 23:21:08]     Primary   : min_leftover
+[2026-03-01 23:21:08]     Secondary : min_pallets
+[2026-03-01 23:21:08] 
+[2026-03-01 23:21:08]   HARDCODED PALLET STANDARDS (not user-configurable — requires code change):
+[2026-03-01 23:21:08]     Recognised footprints : 115×115 cm, 115×108 cm, 115×77 cm, 77×77 cm
+[2026-03-01 23:21:08]     Footprint tolerance   : ±2 cm  (raw dims snapped to nearest standard)
+[2026-03-01 23:21:08]     Height bands          : <66 cm, 66–89 cm, 89–130 cm, >130 cm, 230 cm
+[2026-03-01 23:21:08]     Stacking rules per band are fixed (see utils/oneDbuildblocks.py)
+[2026-03-01 23:21:08] 
+[2026-03-01 23:21:08]   HARDCODED COLUMN NAME ALIASES (Excel parsing):
+[2026-03-01 23:21:08]     Pallet size  : 'Pallet and packing size', 'Pallet size', 'size'
+[2026-03-01 23:21:08]     Qty          : 'External Packaging Quantity', 'Total order full pallets', ...
+[2026-03-01 23:21:08]     Weight       : 'External Net weight', 'Net weight', 'Weight', ...
+[2026-03-01 23:21:08]     NP type flag : 'NP' anywhere in pallet-type column triggers loose-box logic
+[2026-03-01 23:21:08] 
+[2026-03-01 23:21:08] ====================================================================
+[2026-03-01 23:21:08] Base directory: /Users/yolina/Desktop/Container_packing_optimizer/app
+[2026-03-01 23:21:08] Excel input: /Users/yolina/Desktop/Container_packing_optimizer/app/sample_instances/input_final.xlsx
+[2026-03-01 23:21:08] === STEP 1: Parsing Excel ===
+[2026-03-01 23:21:08] === STEP 2: Building Row-Blocks ===
+[2026-03-01 23:21:08] === STEP 3: Solving Containers ===
+[2026-03-01 23:21:10] === STEP 7: Assigning NP Boxes ===
+[2026-03-01 23:21:10] === STEP 8: Fill Recommendations ===
+[2026-03-01 23:21:10] Wrote recommendations: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/recommendations.json
+[2026-03-01 23:21:10] === ALL CONTAINERS SOLVED ===
+[2026-03-01 23:21:10] Wrote containers: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/containers.json
+[2026-03-01 23:21:10] Wrote summary: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/summary.txt
+[2026-03-01 23:21:10] === STEP 10: Excel Report ===
+[2026-03-01 23:21:10] Wrote Excel report: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/report.xlsx
+[2026-03-01 23:21:50] ====================================================================
+[2026-03-01 23:21:50]   OPTIMIZER ASSUMPTIONS & CONFIGURATION
+[2026-03-01 23:21:50] ====================================================================
+[2026-03-01 23:21:50] 
+[2026-03-01 23:21:50]   Config source:
+[2026-03-01 23:21:50]     /Users/yolina/Desktop/Container_packing_optimizer/optimizer_config.json
+[2026-03-01 23:21:50] 
+[2026-03-01 23:21:50]   Container dimensions (internal usable space):
+[2026-03-01 23:21:50]     Length : 1203 cm
+[2026-03-01 23:21:50]     Width  : 235 cm
+[2026-03-01 23:21:50]     Height : 270 cm
+[2026-03-01 23:21:50]     Door H : 250 cm  ← ceiling constraint for loading
+[2026-03-01 23:21:50]     Max wt : 18,000 kg
+[2026-03-01 23:21:50] 
+[2026-03-01 23:21:50]   Packing parameters:
+[2026-03-01 23:21:50]     Row gap         : 5 cm  (fork-lift clearance between pallet rows)
+[2026-03-01 23:21:50]     Solver time cap : 10 s per container
+[2026-03-01 23:21:50] 
+[2026-03-01 23:21:50]   Recommendation objective:
+[2026-03-01 23:21:50]     Primary   : min_leftover
+[2026-03-01 23:21:50]     Secondary : min_pallets
+[2026-03-01 23:21:50] 
+[2026-03-01 23:21:50]   HARDCODED PALLET STANDARDS (not user-configurable — requires code change):
+[2026-03-01 23:21:50]     Recognised footprints : 115×115 cm, 115×108 cm, 115×77 cm, 77×77 cm
+[2026-03-01 23:21:50]     Footprint tolerance   : ±2 cm  (raw dims snapped to nearest standard)
+[2026-03-01 23:21:50]     Height bands          : <66 cm, 66–89 cm, 89–130 cm, >130 cm, 230 cm
+[2026-03-01 23:21:50]     Stacking rules per band are fixed (see utils/oneDbuildblocks.py)
+[2026-03-01 23:21:50] 
+[2026-03-01 23:21:50]   HARDCODED COLUMN NAME ALIASES (Excel parsing):
+[2026-03-01 23:21:50]     Pallet size  : 'Pallet and packing size', 'Pallet size', 'size'
+[2026-03-01 23:21:50]     Qty          : 'External Packaging Quantity', 'Total order full pallets', ...
+[2026-03-01 23:21:50]     Weight       : 'External Net weight', 'Net weight', 'Weight', ...
+[2026-03-01 23:21:50]     NP type flag : 'NP' anywhere in pallet-type column triggers loose-box logic
+[2026-03-01 23:21:50] 
+[2026-03-01 23:21:50] ====================================================================
+[2026-03-01 23:21:50] Base directory: /Users/yolina/Desktop/Container_packing_optimizer/app
+[2026-03-01 23:21:50] Excel input: /Users/yolina/Desktop/Container_packing_optimizer/app/sample_instances/input_final.xlsx
+[2026-03-01 23:21:50] === STEP 1: Parsing Excel ===
+[2026-03-01 23:21:50] === STEP 2: Building Row-Blocks ===
+[2026-03-01 23:21:51] === STEP 3: Solving Containers ===
+[2026-03-01 23:21:53] === STEP 7: Assigning NP Boxes ===
+[2026-03-01 23:21:53] === STEP 8: Fill Recommendations ===
+[2026-03-01 23:21:53] Wrote recommendations: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/recommendations.json
+[2026-03-01 23:21:53] === ALL CONTAINERS SOLVED ===
+[2026-03-01 23:21:53] Wrote containers: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/containers.json
+[2026-03-01 23:21:53] Wrote summary: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/summary.txt
+[2026-03-01 23:21:53] === STEP 10: Excel Report ===
+[2026-03-01 23:21:53] Wrote Excel report: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/report.xlsx
+[2026-03-01 23:22:48] ====================================================================
+[2026-03-01 23:22:48]   OPTIMIZER ASSUMPTIONS & CONFIGURATION
+[2026-03-01 23:22:48] ====================================================================
+[2026-03-01 23:22:48] 
+[2026-03-01 23:22:48]   Config source:
+[2026-03-01 23:22:48]     /Users/yolina/Desktop/Container_packing_optimizer/optimizer_config.json
+[2026-03-01 23:22:48] 
+[2026-03-01 23:22:48]   Container dimensions (internal usable space):
+[2026-03-01 23:22:48]     Length : 1203 cm
+[2026-03-01 23:22:48]     Width  : 235 cm
+[2026-03-01 23:22:48]     Height : 270 cm
+[2026-03-01 23:22:48]     Door H : 250 cm  ← ceiling constraint for loading
+[2026-03-01 23:22:48]     Max wt : 18,000 kg
+[2026-03-01 23:22:48] 
+[2026-03-01 23:22:48]   Packing parameters:
+[2026-03-01 23:22:48]     Row gap         : 5 cm  (fork-lift clearance between pallet rows)
+[2026-03-01 23:22:48]     Solver time cap : 10 s per container
+[2026-03-01 23:22:48] 
+[2026-03-01 23:22:48]   Recommendation objective:
+[2026-03-01 23:22:48]     Primary   : min_leftover
+[2026-03-01 23:22:48]     Secondary : min_pallets
+[2026-03-01 23:22:48] 
+[2026-03-01 23:22:48]   HARDCODED PALLET STANDARDS (not user-configurable — requires code change):
+[2026-03-01 23:22:48]     Recognised footprints : 115×115 cm, 115×108 cm, 115×77 cm, 77×77 cm
+[2026-03-01 23:22:48]     Footprint tolerance   : ±2 cm  (raw dims snapped to nearest standard)
+[2026-03-01 23:22:48]     Height bands          : <66 cm, 66–89 cm, 89–130 cm, >130 cm, 230 cm
+[2026-03-01 23:22:48]     Stacking rules per band are fixed (see utils/oneDbuildblocks.py)
+[2026-03-01 23:22:48] 
+[2026-03-01 23:22:48]   HARDCODED COLUMN NAME ALIASES (Excel parsing):
+[2026-03-01 23:22:48]     Pallet size  : 'Pallet and packing size', 'Pallet size', 'size'
+[2026-03-01 23:22:48]     Qty          : 'External Packaging Quantity', 'Total order full pallets', ...
+[2026-03-01 23:22:48]     Weight       : 'External Net weight', 'Net weight', 'Weight', ...
+[2026-03-01 23:22:48]     NP type flag : 'NP' anywhere in pallet-type column triggers loose-box logic
+[2026-03-01 23:22:48] 
+[2026-03-01 23:22:48] ====================================================================
+[2026-03-01 23:22:48] Base directory: /Users/yolina/Desktop/Container_packing_optimizer/app
+[2026-03-01 23:22:48] Excel input: /Users/yolina/Desktop/Container_packing_optimizer/app/sample_instances/input_final.xlsx
+[2026-03-01 23:22:48] === STEP 1: Parsing Excel ===
+[2026-03-01 23:22:48] === STEP 2: Building Row-Blocks ===
+[2026-03-01 23:22:48] === STEP 3: Solving Containers ===
+[2026-03-01 23:22:50] === STEP 7: Assigning NP Boxes ===
+[2026-03-01 23:22:50] === STEP 8: Fill Recommendations ===
+[2026-03-01 23:22:50] Wrote recommendations: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/recommendations.json
+[2026-03-01 23:22:50] === ALL CONTAINERS SOLVED ===
+[2026-03-01 23:22:50] Wrote containers: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/containers.json
+[2026-03-01 23:22:50] Wrote summary: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/summary.txt
+[2026-03-01 23:22:50] === STEP 10: Excel Report ===
+[2026-03-01 23:22:50] Wrote Excel report: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/report.xlsx
+[2026-03-01 23:26:46] ====================================================================
+[2026-03-01 23:26:46]   OPTIMIZER ASSUMPTIONS & CONFIGURATION
+[2026-03-01 23:26:46] ====================================================================
+[2026-03-01 23:26:46] 
+[2026-03-01 23:26:46]   Config source:
+[2026-03-01 23:26:46]     /Users/yolina/Desktop/Container_packing_optimizer/optimizer_config.json
+[2026-03-01 23:26:46] 
+[2026-03-01 23:26:46]   Container dimensions (internal usable space):
+[2026-03-01 23:26:46]     Length : 1203 cm
+[2026-03-01 23:26:46]     Width  : 235 cm
+[2026-03-01 23:26:46]     Height : 270 cm
+[2026-03-01 23:26:46]     Door H : 250 cm  ← ceiling constraint for loading
+[2026-03-01 23:26:46]     Max wt : 18,000 kg
+[2026-03-01 23:26:46] 
+[2026-03-01 23:26:46]   Packing parameters:
+[2026-03-01 23:26:46]     Row gap         : 5 cm  (fork-lift clearance between pallet rows)
+[2026-03-01 23:26:46]     Solver time cap : 10 s per container
+[2026-03-01 23:26:46] 
+[2026-03-01 23:26:46]   Recommendation objective:
+[2026-03-01 23:26:46]     Primary   : min_leftover
+[2026-03-01 23:26:46]     Secondary : min_pallets
+[2026-03-01 23:26:46] 
+[2026-03-01 23:26:46]   HARDCODED PALLET STANDARDS (not user-configurable — requires code change):
+[2026-03-01 23:26:46]     Recognised footprints : 115×115 cm, 115×108 cm, 115×77 cm, 77×77 cm
+[2026-03-01 23:26:46]     Footprint tolerance   : ±2 cm  (raw dims snapped to nearest standard)
+[2026-03-01 23:26:46]     Height bands          : <66 cm, 66–89 cm, 89–130 cm, >130 cm, 230 cm
+[2026-03-01 23:26:46]     Stacking rules per band are fixed (see utils/oneDbuildblocks.py)
+[2026-03-01 23:26:46] 
+[2026-03-01 23:26:46]   HARDCODED COLUMN NAME ALIASES (Excel parsing):
+[2026-03-01 23:26:46]     Pallet size  : 'Pallet and packing size', 'Pallet size', 'size'
+[2026-03-01 23:26:46]     Qty          : 'External Packaging Quantity', 'Total order full pallets', ...
+[2026-03-01 23:26:46]     Weight       : 'External Net weight', 'Net weight', 'Weight', ...
+[2026-03-01 23:26:46]     NP type flag : 'NP' anywhere in pallet-type column triggers loose-box logic
+[2026-03-01 23:26:46] 
+[2026-03-01 23:26:46] ====================================================================
+[2026-03-01 23:26:46] Base directory: /Users/yolina/Desktop/Container_packing_optimizer/app
+[2026-03-01 23:26:46] Excel input: /Users/yolina/Desktop/Container_packing_optimizer/app/sample_instances/input_final.xlsx
+[2026-03-01 23:26:46] === STEP 1: Parsing Excel ===
+[2026-03-01 23:26:46] === STEP 2: Building Row-Blocks ===
+[2026-03-01 23:26:46] === STEP 3: Solving Containers ===
+[2026-03-01 23:26:48] === STEP 7: Assigning NP Boxes ===
+[2026-03-01 23:26:48] === STEP 8: Fill Recommendations ===
+[2026-03-01 23:26:48] Wrote recommendations: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/recommendations.json
+[2026-03-01 23:26:48] === ALL CONTAINERS SOLVED ===
+[2026-03-01 23:26:48] Wrote containers: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/containers.json
+[2026-03-01 23:26:48] Wrote summary: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/summary.txt
+[2026-03-01 23:26:48] === STEP 10: Excel Report ===
+[2026-03-01 23:26:48] Wrote Excel report: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/report.xlsx
+[2026-03-01 23:31:01] ====================================================================
+[2026-03-01 23:31:01]   OPTIMIZER ASSUMPTIONS & CONFIGURATION
+[2026-03-01 23:31:01] ====================================================================
+[2026-03-01 23:31:01] 
+[2026-03-01 23:31:01]   Config source:
+[2026-03-01 23:31:01]     /Users/yolina/Desktop/Container_packing_optimizer/optimizer_config.json
+[2026-03-01 23:31:01] 
+[2026-03-01 23:31:01]   Container dimensions (internal usable space):
+[2026-03-01 23:31:01]     Length : 1203 cm
+[2026-03-01 23:31:01]     Width  : 235 cm
+[2026-03-01 23:31:01]     Height : 270 cm
+[2026-03-01 23:31:01]     Door H : 250 cm  ← ceiling constraint for loading
+[2026-03-01 23:31:01]     Max wt : 18,000 kg
+[2026-03-01 23:31:01] 
+[2026-03-01 23:31:01]   Packing parameters:
+[2026-03-01 23:31:01]     Row gap         : 5 cm  (fork-lift clearance between pallet rows)
+[2026-03-01 23:31:01]     Solver time cap : 10 s per container
+[2026-03-01 23:31:01] 
+[2026-03-01 23:31:01]   Recommendation objective:
+[2026-03-01 23:31:01]     Primary   : min_leftover
+[2026-03-01 23:31:01]     Secondary : min_pallets
+[2026-03-01 23:31:01] 
+[2026-03-01 23:31:01]   HARDCODED PALLET STANDARDS (not user-configurable — requires code change):
+[2026-03-01 23:31:01]     Recognised footprints : 115×115 cm, 115×108 cm, 115×77 cm, 77×77 cm
+[2026-03-01 23:31:01]     Footprint tolerance   : ±2 cm  (raw dims snapped to nearest standard)
+[2026-03-01 23:31:01]     Height bands          : <66 cm, 66–89 cm, 89–130 cm, >130 cm, 230 cm
+[2026-03-01 23:31:01]     Stacking rules per band are fixed (see utils/oneDbuildblocks.py)
+[2026-03-01 23:31:01] 
+[2026-03-01 23:31:01]   HARDCODED COLUMN NAME ALIASES (Excel parsing):
+[2026-03-01 23:31:01]     Pallet size  : 'Pallet and packing size', 'Pallet size', 'size'
+[2026-03-01 23:31:01]     Qty          : 'External Packaging Quantity', 'Total order full pallets', ...
+[2026-03-01 23:31:01]     Weight       : 'External Net weight', 'Net weight', 'Weight', ...
+[2026-03-01 23:31:01]     NP type flag : 'NP' anywhere in pallet-type column triggers loose-box logic
+[2026-03-01 23:31:01] 
+[2026-03-01 23:31:01] ====================================================================
+[2026-03-01 23:31:01] Base directory: /Users/yolina/Desktop/Container_packing_optimizer/app
+[2026-03-01 23:31:01] Excel input: /Users/yolina/Desktop/Container_packing_optimizer/app/sample_instances/input_final.xlsx
+[2026-03-01 23:31:01] === STEP 1: Parsing Excel ===
+[2026-03-01 23:31:01] === STEP 2: Building Row-Blocks ===
+[2026-03-01 23:31:01] === STEP 3: Solving Containers ===
+[2026-03-01 23:31:03] === STEP 7: Assigning NP Boxes ===
+[2026-03-01 23:31:03] === STEP 8: Fill Recommendations ===
+[2026-03-01 23:31:03] Wrote recommendations: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/recommendations.json
+[2026-03-01 23:31:03] === ALL CONTAINERS SOLVED ===
+[2026-03-01 23:31:03] Wrote containers: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/containers.json
+[2026-03-01 23:31:03] Wrote summary: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/summary.txt
+[2026-03-01 23:31:03] === STEP 10: Excel Report ===
+[2026-03-01 23:31:03] Wrote Excel report: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/report.xlsx
+[2026-03-01 23:31:32] ====================================================================
+[2026-03-01 23:31:32]   OPTIMIZER ASSUMPTIONS & CONFIGURATION
+[2026-03-01 23:31:32] ====================================================================
+[2026-03-01 23:31:32] 
+[2026-03-01 23:31:32]   Config source:
+[2026-03-01 23:31:32]     /Users/yolina/Desktop/Container_packing_optimizer/optimizer_config.json
+[2026-03-01 23:31:32] 
+[2026-03-01 23:31:32]   Container dimensions (internal usable space):
+[2026-03-01 23:31:32]     Length : 1203 cm
+[2026-03-01 23:31:32]     Width  : 235 cm
+[2026-03-01 23:31:32]     Height : 270 cm
+[2026-03-01 23:31:32]     Door H : 250 cm  ← ceiling constraint for loading
+[2026-03-01 23:31:32]     Max wt : 18,000 kg
+[2026-03-01 23:31:32] 
+[2026-03-01 23:31:32]   Packing parameters:
+[2026-03-01 23:31:32]     Row gap         : 5 cm  (fork-lift clearance between pallet rows)
+[2026-03-01 23:31:32]     Solver time cap : 10 s per container
+[2026-03-01 23:31:32] 
+[2026-03-01 23:31:32]   Recommendation objective:
+[2026-03-01 23:31:32]     Primary   : min_leftover
+[2026-03-01 23:31:32]     Secondary : min_pallets
+[2026-03-01 23:31:32] 
+[2026-03-01 23:31:32]   HARDCODED PALLET STANDARDS (not user-configurable — requires code change):
+[2026-03-01 23:31:32]     Recognised footprints : 115×115 cm, 115×108 cm, 115×77 cm, 77×77 cm
+[2026-03-01 23:31:32]     Footprint tolerance   : ±2 cm  (raw dims snapped to nearest standard)
+[2026-03-01 23:31:32]     Height bands          : <66 cm, 66–89 cm, 89–130 cm, >130 cm, 230 cm
+[2026-03-01 23:31:32]     Stacking rules per band are fixed (see utils/oneDbuildblocks.py)
+[2026-03-01 23:31:32] 
+[2026-03-01 23:31:32]   HARDCODED COLUMN NAME ALIASES (Excel parsing):
+[2026-03-01 23:31:32]     Pallet size  : 'Pallet and packing size', 'Pallet size', 'size'
+[2026-03-01 23:31:32]     Qty          : 'External Packaging Quantity', 'Total order full pallets', ...
+[2026-03-01 23:31:32]     Weight       : 'External Net weight', 'Net weight', 'Weight', ...
+[2026-03-01 23:31:32]     NP type flag : 'NP' anywhere in pallet-type column triggers loose-box logic
+[2026-03-01 23:31:32] 
+[2026-03-01 23:31:32] ====================================================================
+[2026-03-01 23:31:32] Base directory: /Users/yolina/Desktop/Container_packing_optimizer/app
+[2026-03-01 23:31:32] Excel input: /Users/yolina/Desktop/Container_packing_optimizer/app/sample_instances/input_final.xlsx
+[2026-03-01 23:31:32] === STEP 1: Parsing Excel ===
+[2026-03-01 23:31:32] === STEP 2: Building Row-Blocks ===
+[2026-03-01 23:31:32] === STEP 3: Solving Containers ===
+[2026-03-01 23:31:34] === STEP 7: Assigning NP Boxes ===
+[2026-03-01 23:31:34] === STEP 8: Fill Recommendations ===
+[2026-03-01 23:31:34] Wrote recommendations: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/recommendations.json
+[2026-03-01 23:31:34] === ALL CONTAINERS SOLVED ===
+[2026-03-01 23:31:34] Wrote containers: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/containers.json
+[2026-03-01 23:31:34] Wrote summary: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/summary.txt
+[2026-03-01 23:31:34] === STEP 10: Excel Report ===
+[2026-03-01 23:31:34] Wrote Excel report: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/report.xlsx
+[2026-03-02 00:50:07] ====================================================================
+[2026-03-02 00:50:07]   OPTIMIZER ASSUMPTIONS & CONFIGURATION
+[2026-03-02 00:50:07] ====================================================================
+[2026-03-02 00:50:07] 
+[2026-03-02 00:50:07]   Config source:
+[2026-03-02 00:50:07]     /Users/yolina/Desktop/Container_packing_optimizer/optimizer_config.json
+[2026-03-02 00:50:07] 
+[2026-03-02 00:50:07]   Container dimensions (internal usable space):
+[2026-03-02 00:50:07]     Length : 1203 cm
+[2026-03-02 00:50:07]     Width  : 235 cm
+[2026-03-02 00:50:07]     Height : 270 cm
+[2026-03-02 00:50:07]     Door H : 250 cm  ← ceiling constraint for loading
+[2026-03-02 00:50:07]     Max wt : 18,000 kg
+[2026-03-02 00:50:07] 
+[2026-03-02 00:50:07]   Packing parameters:
+[2026-03-02 00:50:07]     Row gap         : 5 cm  (fork-lift clearance between pallet rows)
+[2026-03-02 00:50:07]     Solver time cap : 10 s per container
+[2026-03-02 00:50:07] 
+[2026-03-02 00:50:07]   Recommendation objective:
+[2026-03-02 00:50:07]     Primary   : min_leftover
+[2026-03-02 00:50:07]     Secondary : min_pallets
+[2026-03-02 00:50:07] 
+[2026-03-02 00:50:07]   HARDCODED PALLET STANDARDS (not user-configurable — requires code change):
+[2026-03-02 00:50:07]     Recognised footprints : 115×115 cm, 115×108 cm, 115×77 cm, 77×77 cm
+[2026-03-02 00:50:07]     Footprint tolerance   : ±2 cm  (raw dims snapped to nearest standard)
+[2026-03-02 00:50:07]     Height bands          : <66 cm, 66–89 cm, 89–130 cm, >130 cm, 230 cm
+[2026-03-02 00:50:07]     Stacking rules per band are fixed (see utils/oneDbuildblocks.py)
+[2026-03-02 00:50:07] 
+[2026-03-02 00:50:07]   HARDCODED COLUMN NAME ALIASES (Excel parsing):
+[2026-03-02 00:50:07]     Pallet size  : 'Pallet and packing size', 'Pallet size', 'size'
+[2026-03-02 00:50:07]     Qty          : 'External Packaging Quantity', 'Total order full pallets', ...
+[2026-03-02 00:50:07]     Weight       : 'External Net weight', 'Net weight', 'Weight', ...
+[2026-03-02 00:50:07]     NP type flag : 'NP' anywhere in pallet-type column triggers loose-box logic
+[2026-03-02 00:50:07] 
+[2026-03-02 00:50:07] ====================================================================
+[2026-03-02 00:50:07] Base directory: /Users/yolina/Desktop/Container_packing_optimizer/app
+[2026-03-02 00:50:07] Excel input: /Users/yolina/Desktop/Container_packing_optimizer/app/sample_instances/input_final.xlsx
+[2026-03-02 00:50:07] === STEP 1: Parsing Excel ===
+[2026-03-02 00:50:07] === STEP 2: Building Row-Blocks ===
+[2026-03-02 00:50:07] === STEP 3: Solving Containers ===
+[2026-03-02 00:50:09] === STEP 7: Assigning NP Boxes ===
+[2026-03-02 00:50:09] === STEP 8: Fill Recommendations ===
+[2026-03-02 00:50:09] Wrote recommendations: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/recommendations.json
+[2026-03-02 00:50:09] === ALL CONTAINERS SOLVED ===
+[2026-03-02 00:50:09] Wrote containers: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/containers.json
+[2026-03-02 00:50:09] Wrote summary: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/summary.txt
+[2026-03-02 00:50:09] === STEP 10: Excel Report ===
+[2026-03-02 00:50:09] Wrote Excel report: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/report.xlsx
+[2026-03-02 01:00:29] ====================================================================
+[2026-03-02 01:00:29]   OPTIMIZER ASSUMPTIONS & CONFIGURATION
+[2026-03-02 01:00:29] ====================================================================
+[2026-03-02 01:00:29] 
+[2026-03-02 01:00:29]   Config source:
+[2026-03-02 01:00:29]     /Users/yolina/Desktop/Container_packing_optimizer/optimizer_config.json
+[2026-03-02 01:00:29] 
+[2026-03-02 01:00:29]   Container dimensions (internal usable space):
+[2026-03-02 01:00:29]     Length : 1203 cm
+[2026-03-02 01:00:29]     Width  : 235 cm
+[2026-03-02 01:00:29]     Height : 270 cm
+[2026-03-02 01:00:29]     Door H : 250 cm  ← ceiling constraint for loading
+[2026-03-02 01:00:29]     Max wt : 18,000 kg
+[2026-03-02 01:00:29] 
+[2026-03-02 01:00:29]   Packing parameters:
+[2026-03-02 01:00:29]     Row gap         : 5 cm  (fork-lift clearance between pallet rows)
+[2026-03-02 01:00:29]     Solver time cap : 10 s per container
+[2026-03-02 01:00:29] 
+[2026-03-02 01:00:29]   Recommendation objective:
+[2026-03-02 01:00:29]     Primary   : min_leftover
+[2026-03-02 01:00:29]     Secondary : min_pallets
+[2026-03-02 01:00:29] 
+[2026-03-02 01:00:29]   HARDCODED PALLET STANDARDS (not user-configurable — requires code change):
+[2026-03-02 01:00:29]     Recognised footprints : 115×115 cm, 115×108 cm, 115×77 cm, 77×77 cm
+[2026-03-02 01:00:29]     Footprint tolerance   : ±2 cm  (raw dims snapped to nearest standard)
+[2026-03-02 01:00:29]     Height bands          : <66 cm, 66–89 cm, 89–130 cm, >130 cm, 230 cm
+[2026-03-02 01:00:29]     Stacking rules per band are fixed (see utils/oneDbuildblocks.py)
+[2026-03-02 01:00:29] 
+[2026-03-02 01:00:29]   HARDCODED COLUMN NAME ALIASES (Excel parsing):
+[2026-03-02 01:00:29]     Pallet size  : 'Pallet and packing size', 'Pallet size', 'size'
+[2026-03-02 01:00:29]     Qty          : 'External Packaging Quantity', 'Total order full pallets', ...
+[2026-03-02 01:00:29]     Weight       : 'External Net weight', 'Net weight', 'Weight', ...
+[2026-03-02 01:00:29]     NP type flag : 'NP' anywhere in pallet-type column triggers loose-box logic
+[2026-03-02 01:00:29] 
+[2026-03-02 01:00:29] ====================================================================
+[2026-03-02 01:00:29] Base directory: /Users/yolina/Desktop/Container_packing_optimizer/app
+[2026-03-02 01:00:29] Excel input: /Users/yolina/Desktop/Container_packing_optimizer/app/sample_instances/input_final.xlsx
+[2026-03-02 01:00:29] === STEP 1: Parsing Excel ===
+[2026-03-02 01:00:29] === STEP 2: Building Row-Blocks ===
+[2026-03-02 01:00:29] === STEP 3: Solving Containers ===
+[2026-03-02 01:00:31] === STEP 7: Assigning NP Boxes ===
+[2026-03-02 01:00:31] === STEP 8: Fill Recommendations ===
+[2026-03-02 01:00:31] Wrote recommendations: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/recommendations.json
+[2026-03-02 01:00:31] === ALL CONTAINERS SOLVED ===
+[2026-03-02 01:00:31] Wrote containers: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/containers.json
+[2026-03-02 01:00:31] Wrote summary: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/summary.txt
+[2026-03-02 01:00:31] === STEP 10: Excel Report ===
+[2026-03-02 01:00:31] Wrote Excel report: /Users/yolina/Desktop/Container_packing_optimizer/app/outputs/report.xlsx

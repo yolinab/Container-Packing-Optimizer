@@ -79,6 +79,27 @@ def _tl_color(pct: float) -> str:
     return _TL_GOOD if pct >= 85 else (_TL_OK if pct >= 60 else _TL_BAD)
 
 
+def _vol_fill_pct(container: dict, W: int, Hdoor: int, L: int) -> float:
+    """Volumetric fill %: (pallet vol + placed box vol) / (L × W × Hdoor) × 100.
+
+    Pallet volume = sum of each row's (length × full-container-width × row height).
+    NP box volume = pre-computed volume_used_cm3 from the greedy fill.
+    Container usable volume uses door height (the loading constraint ceiling).
+    """
+    pallet_vol = sum(
+        r["length_cm"] * W * r["height_cm"]
+        for r in container.get("rows", [])
+    )
+    box_vol = sum(
+        z["volume_used_cm3"]
+        for z in container.get("box_zones", [])
+    )
+    container_vol = float(L * W * Hdoor)
+    if container_vol <= 0:
+        return 0.0
+    return round(100.0 * (pallet_vol + box_vol) / container_vol, 1)
+
+
 def _set_cell(ws, row: int, col: int, value=None, *,
               bold=False, fg="000000", bg=None, size=10, italic=False,
               h="left", v="center", wrap=False,
@@ -132,8 +153,10 @@ def _col_header_row(ws, row: int, headers: List[str], col_start: int = 1,
 def _write_overview(ws, containers, recs, np_boxes, unplaced, config):
     ws.sheet_view.showGridLines = False
 
-    L  = config.get("CONTAINER_LENGTH_CM", 1203)
-    Wm = config.get("CONTAINER_MAX_WEIGHT_KG", 18000)
+    L     = config.get("CONTAINER_LENGTH_CM", 1203)
+    W     = config.get("CONTAINER_WIDTH_CM", 235)
+    Hdoor = config.get("CONTAINER_DOOR_HEIGHT_CM", 250)
+    Wm    = config.get("CONTAINER_MAX_WEIGHT_KG", 18000)
 
     total_pallets  = sum(c["loaded_value"]  for c in containers)
     total_weight   = sum(c["loaded_weight"] for c in containers)
@@ -146,8 +169,7 @@ def _write_overview(ws, containers, recs, np_boxes, unplaced, config):
     total_unplaced = sum(e["remaining_qty"] for e in (unplaced or []))
 
     avg_fill = (
-        100.0 * sum(c["used_length_cm"] for c in containers)
-        / (L * len(containers))
+        sum(_vol_fill_pct(c, W, Hdoor, L) for c in containers) / len(containers)
         if containers else 0.0
     )
 
@@ -183,7 +205,7 @@ def _write_overview(ws, containers, recs, np_boxes, unplaced, config):
         ("Total pallets loaded",         total_pallets,          None),
         ("Total NP boxes loaded",        total_np_boxes,         None),
         ("Total weight loaded (kg)",     f"{total_weight:,.0f}", None),
-        ("Avg container length fill",    f"{avg_fill:.1f} %",    None),
+        ("Avg container volume fill",    f"{avg_fill:.1f} %",    None),
         ("Recommended extra pallets",    total_rec_pal,          None),
         ("Recommended extra NP boxes",   total_rec_np,           None),
         ("Unplaced NP boxes",            total_unplaced,         None),
@@ -202,7 +224,7 @@ def _write_overview(ws, containers, recs, np_boxes, unplaced, config):
     # ── Per-container summary table ──────────────────────────────────────────
     _section_title(ws, 14, 1, 8, "  CONTAINER SUMMARY")
 
-    hdrs = ["Container", "Used (cm)", "Total (cm)", "Fill %",
+    hdrs = ["Container", "Len Used (cm)", "Total (cm)", "Vol Fill %",
             "Pallets", "Weight (kg)", "NP Boxes", "Rec Pallets"]
     _col_header_row(ws, 15, hdrs, col_start=1,
                     widths=[12, 12, 12, 10, 10, 14, 12, 14])
@@ -223,7 +245,7 @@ def _write_overview(ws, containers, recs, np_boxes, unplaced, config):
         boxes  = sum(p["quantity"] for z in zones for p in z["placed"])
         rec    = rec_by_idx.get(idx, {})
         r_pal  = rec.get("total_pallets_to_add", 0)
-        fill_p = round(100.0 * used / L, 1) if L else 0
+        fill_p = _vol_fill_pct(c, W, Hdoor, L)
 
         bg = _ALT_ROW if i % 2 == 0 else _WHITE
         tl = _tl_color(fill_p)
@@ -250,8 +272,8 @@ def _write_overview(ws, containers, recs, np_boxes, unplaced, config):
         chart = BarChart()
         chart.type         = "col"
         chart.grouping     = "clustered"
-        chart.title        = "Container Length Fill %"
-        chart.y_axis.title = "Fill %"
+        chart.title        = "Container Volume Fill %"
+        chart.y_axis.title = "Vol Fill %"
         chart.x_axis.title = "Container"
         chart.y_axis.scaling.min = 0
         chart.y_axis.scaling.max = 100
@@ -267,7 +289,7 @@ def _write_overview(ws, containers, recs, np_boxes, unplaced, config):
                              min_row=chart_rows_start, max_row=chart_rows_end)
         chart.add_data(data_ref, from_rows=False, titles_from_data=False)
         chart.set_categories(cats_ref)
-        chart.series[0].title = SeriesLabel(v="Fill %")
+        chart.series[0].title = SeriesLabel(v="Vol Fill %")
         chart.series[0].graphicalProperties.solidFill = "2E6DA4"
 
         anchor_row = chart_rows_end + 3
@@ -287,23 +309,27 @@ def _write_details(ws, containers, config):
     for i, w in enumerate(col_widths):
         ws.column_dimensions[get_column_letter(i + 1)].width = w
 
-    L   = config.get("CONTAINER_LENGTH_CM", 1203)
-    Wm  = config.get("CONTAINER_MAX_WEIGHT_KG", 18000)
+    L     = config.get("CONTAINER_LENGTH_CM", 1203)
+    W     = config.get("CONTAINER_WIDTH_CM", 235)
+    Hdoor = config.get("CONTAINER_DOOR_HEIGHT_CM", 250)
+    Wm    = config.get("CONTAINER_MAX_WEIGHT_KG", 18000)
 
     row = 1
     for c in containers:
-        idx    = c["container_index"]
-        used   = c["used_length_cm"]
-        leftov = c["leftover_cm"]
-        wt     = c["loaded_weight"]
-        pals   = c["loaded_value"]
-        fill_p = round(100.0 * used / L, 1) if L else 0
-        zones  = c.get("box_zones", [])
+        idx     = c["container_index"]
+        used    = c["used_length_cm"]
+        leftov  = c["leftover_cm"]
+        wt      = c["loaded_weight"]
+        pals    = c["loaded_value"]
+        vol_p   = _vol_fill_pct(c, W, Hdoor, L)
+        len_p   = round(100.0 * used / L, 1) if L else 0
+        zones   = c.get("box_zones", [])
         n_boxes = sum(p["quantity"] for z in zones for p in z["placed"])
 
         # Container header
         _merge_write(ws, row, 1, row, 7,
-                     f"  CONTAINER {idx}   —   Used {used} / {L} cm  ({fill_p}%)"
+                     f"  CONTAINER {idx}   —   Vol Fill: {vol_p}%  |  "
+                     f"Len used: {used} / {L} cm  ({len_p}%)"
                      f"   |   Pallets: {pals}   Weight: {wt:,.0f} kg   NP Boxes: {n_boxes}",
                      bold=True, fg=_WHITE, bg=_HEADER_BG, size=11)
         ws.row_dimensions[row].height = 24
@@ -413,7 +439,9 @@ def _color_layout_range(ws, row: int, y_start_cm: int, length_cm: int,
 def _write_layout(ws, containers, recs, config):
     ws.sheet_view.showGridLines = False
 
-    L = config.get("CONTAINER_LENGTH_CM", 1203)
+    L     = config.get("CONTAINER_LENGTH_CM", 1203)
+    W     = config.get("CONTAINER_WIDTH_CM", 235)
+    Hdoor = config.get("CONTAINER_DOOR_HEIGHT_CM", 250)
     n_layout_cols = _layout_col_count(L)
     total_cols    = _LAYOUT_LABEL_COLS + n_layout_cols + 1
 
@@ -468,7 +496,7 @@ def _write_layout(ws, containers, recs, config):
     ws.row_dimensions[ruler_row].height = 12
     # Label cols
     _set_cell(ws, ruler_row, 1, "Container", bold=True, size=8, h="center", bg=_ACCENT_BG)
-    _set_cell(ws, ruler_row, 2, "Fill %",    bold=True, size=8, h="center", bg=_ACCENT_BG)
+    _set_cell(ws, ruler_row, 2, "Vol Fill %", bold=True, size=8, h="center", bg=_ACCENT_BG)
     _set_cell(ws, ruler_row, 3, "Layer",     bold=True, size=8, h="center", bg=_ACCENT_BG)
 
     # Tick marks every 100 cm
@@ -492,7 +520,7 @@ def _write_layout(ws, containers, recs, config):
     for c in containers:
         idx    = c["container_index"]
         used   = c["used_length_cm"]
-        fill_p = round(100.0 * used / L, 1) if L else 0
+        fill_p = _vol_fill_pct(c, W, Hdoor, L)
         tl     = _tl_color(fill_p)
         rec    = rec_by_idx.get(idx, {})
 
