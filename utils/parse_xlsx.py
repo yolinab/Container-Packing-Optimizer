@@ -175,7 +175,10 @@ def _find_col_optional(df: pd.DataFrame, candidates: List[str]) -> Optional[str]
 def _find_col_required(df: pd.DataFrame, candidates: List[str]) -> str:
     col = _find_col_optional(df, candidates)
     if col is None:
-        raise KeyError(f"None of the candidate columns {candidates} found in {list(df.columns)}")
+        raise KeyError(
+            f"Required column not found. Tried: {candidates}.\n"
+            f"Columns in your file: {list(df.columns)}"
+        )
     return col
 
 
@@ -319,6 +322,7 @@ def parse_pallet_excel_v2(
 def parse_np_boxes_excel_v3(
     excel_path: str,
     sheet_name: Any = 0,
+    count_col_override: Optional[str] = None,
 ) -> List[Dict[str, Any]]:
     """
     Parse NP (non-palletized / loose box) rows from the Excel.
@@ -355,12 +359,18 @@ def parse_np_boxes_excel_v3(
     col_item        = _find_col_optional(df, ["Item", "item"])
     col_barcode     = _find_col_optional(df, ["Barcode", "bar code", "ean"])
 
-    # Count column: External Packaging Quantity first; fall back to Total number of pallets
-    # because NP rows often leave External Packaging Quantity empty and store
-    # the box count in Total number of pallets instead.
-    col_count_eq  = _find_col_optional(df, ["External Packaging Quantity", "external packaging"])
-    col_count_tnp = _find_col_optional(df, ["Total number of pallets", "Total order full pallets", "number of pallets"])
-    count_cols: List[str] = [c for c in [col_count_eq, col_count_tnp] if c]
+    # Count column: use override if provided, otherwise fuzzy-match candidates.
+    if count_col_override is not None:
+        if count_col_override not in df.columns:
+            raise KeyError(
+                f"count_col_override='{count_col_override}' not found in file.\n"
+                f"Columns in your file: {list(df.columns)}"
+            )
+        count_cols: List[str] = [count_col_override]
+    else:
+        col_count_eq  = _find_col_optional(df, ["External Packaging Quantity", "external packaging"])
+        col_count_tnp = _find_col_optional(df, ["Total number of pallets", "Total order full pallets", "number of pallets"])
+        count_cols = [c for c in [col_count_eq, col_count_tnp] if c]
 
     col_weight = _find_col_optional(df, [
         "External Net weight", "external net weight",
@@ -471,6 +481,7 @@ def parse_pallet_excel_v3(
     excel_path: str,
     sheet_name: Any = 0,
     return_per_pallet_meta: bool = True,
+    count_col_override: Optional[str] = None,
 ) -> Tuple[List[int], List[int], List[int], List[Dict[str, Any]], List[Dict[str, Any]]]:
     """
     New format for multi-container/subset model:
@@ -482,6 +493,9 @@ def parse_pallet_excel_v3(
                       so meta_per_pallet[i] describes pallet i.
 
     If return_per_pallet_meta=False, meta_per_pallet will be [].
+
+    count_col_override: if provided, use this exact column name for the order quantity
+                        instead of fuzzy-matching from the candidate list.
     """
     header_row = _detect_header_row(excel_path, sheet_name)
     df = pd.read_excel(excel_path, sheet_name=sheet_name, header=header_row)
@@ -489,7 +503,16 @@ def parse_pallet_excel_v3(
     # Required columns
     # "Pallet and packing size" (new format) takes priority over "Pallet size" (old format)
     col_pallet_size = _find_col_required(df, ["Pallet and packing size", "Pallet size", "size"])
-    col_count = _find_col_required(df, ["External Packaging Quantity", "external packaging", "Total order full pallets", "Total number of pallets", "full pallets", "order full pallets", "number of pallets"])
+
+    if count_col_override is not None:
+        if count_col_override not in df.columns:
+            raise KeyError(
+                f"count_col_override='{count_col_override}' not found in file.\n"
+                f"Columns in your file: {list(df.columns)}"
+            )
+        col_count = count_col_override
+    else:
+        col_count = _find_col_required(df, ["External Packaging Quantity", "external packaging", "Total order full pallets", "Total number of pallets", "full pallets", "order full pallets", "number of pallets"])
 
     # Optional columns (best-effort)
     col_productname = _find_col_optional(df, ["Productname", "product name", "product"])

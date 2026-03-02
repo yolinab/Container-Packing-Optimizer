@@ -117,9 +117,8 @@ def assign_boxes_to_containers(
     """
     Greedy heuristic: fill remaining container space with NP loose boxes.
 
-    Priority per container:
-      1. Headroom above each pallet row-block (box height must fit)
-      2. Tail zone (unused length after the last pallet row)
+    Fills the tail zone (unused length after the last pallet row) only.
+    Boxes may not be placed on top of pallets — only on top of other boxes.
 
     Volume arithmetic only — no strict 3-D geometry.
     Modifies each container dict in-place: adds 'box_zones', updates 'loaded_weight'.
@@ -203,30 +202,10 @@ def assign_boxes_to_containers(
         container["box_zones"] = []
         weight_budget = float(Wmax_kg) - float(container.get("loaded_weight", 0))
 
-        # --- Priority 1: headroom above each pallet row-block ---
-        for row in container.get("rows", []):
-            headroom = Hdoor - int(row["height_cm"])
-            if headroom <= 0:
-                continue
-            zone_L = int(row["length_cm"])
-            placed, vol_used, wt_used = _fill_zone(zone_L, W, headroom, weight_budget)
-            weight_budget -= wt_used
-            container["loaded_weight"] = container.get("loaded_weight", 0) + wt_used
+        # Boxes may only be placed in the tail zone (floor after the last pallet
+        # row). Stacking boxes on top of pallets is not allowed operationally.
 
-            if placed:
-                container["box_zones"].append({
-                    "zone_type":       "atop",
-                    "y_start_cm":      int(row["y_start_cm"]),
-                    "z_base_cm":       int(row["height_cm"]),
-                    "length_cm":       zone_L,
-                    "width_cm":        W,
-                    "height_cm":       headroom,
-                    "volume_used_cm3": vol_used,
-                    "placed":          placed,
-                    "total_weight_kg": wt_used,
-                })
-
-        # --- Priority 2: tail zone ---
+        # --- Tail zone ---
         tail_L = L - int(container.get("used_length_cm", 0))
         if tail_L > 0 and any(entry[1] > 0 for entry in pool):
             placed, vol_used, wt_used = _fill_zone(tail_L, W, Hdoor, weight_budget)
@@ -264,6 +243,19 @@ def select_one_variant_per_block(blocks):
     return [best[k] for k in sorted(best.keys())]
 
 
+MAX_CONTAINERS = 30  # safety cap to prevent infinite loops on bad input
+
+
+def _humanize_block_key(key: str) -> str:
+    """Convert '115x77|>130' → '115×77 cm footprint, height >130 cm'."""
+    try:
+        foot, band = key.split("|")
+        L, W = foot.split("x")
+        return f"{L}×{W} cm footprint, height {band} cm"
+    except Exception:
+        return key
+
+
 def main(
     excel_path: str = "input_final.xlsx",
     sheet_name=0,
@@ -275,6 +267,7 @@ def main(
     time_limit: int = SOLVER_TIME_LIMIT_SEC,
     base_dir: str | None = None,
     no_plot: bool = False,
+    count_col_override: str | None = None,
 ):
     base = _base_dir(base_dir)
     out_dir = _setup_outputs(base)
@@ -296,13 +289,23 @@ def main(
         str(excel_p),
         sheet_name=sheet_name,
         return_per_pallet_meta=True,
+        count_col_override=count_col_override,
     )
+
+    if not meta_per_pallet:
+        raise RuntimeError(
+            "No pallets were parsed from the Excel file.\n"
+            "Check that the file contains rows with a valid pallet size string "
+            "(e.g. '1,15x1,15x1,27') and a non-zero order quantity."
+        )
 
     print(f"Parsed {len(meta_per_pallet)} physical pallets")
     print(f"Distinct pallet rows: {len(pallets_data)}")
 
     # Parse NP (loose box) rows from the same file
-    np_boxes = parse_np_boxes_excel_v3(str(excel_p), sheet_name=sheet_name)
+    np_boxes = parse_np_boxes_excel_v3(
+        str(excel_p), sheet_name=sheet_name, count_col_override=count_col_override
+    )
 
     # ------------------------------------------------------------
     # 2) Build row-block instances (and validate multiples)
@@ -325,19 +328,24 @@ def main(
             print(" -", w)
 
     if recommendations:
-        print("\nORDER NOT VALID FOR FULL ROW-BLOCK MODEL")
-        print("You need to add pallets to reach valid multiples:\n")
+        lines = []
         for k, v in recommendations.items():
-            print(f"  {k}: add {v} pallets")
+            human = _humanize_block_key(k)
+            lines.append(f"  {human}: add {v} pallet{'s' if v != 1 else ''}")
+        detail = "\n".join(lines)
+        print("\nORDER NOT VALID — pallet counts are not exact multiples:")
+        print(detail)
         summary_path = out_dir / "summary.txt"
         with summary_path.open("w", encoding="utf-8") as f:
-            f.write("ORDER NOT VALID FOR FULL ROW-BLOCK MODEL\n")
-            f.write("Add pallets to reach valid multiples:\n\n")
-            for k, v in recommendations.items():
-                f.write(f"- {k}: add {v} pallets\n")
+            f.write("ORDER NOT VALID — pallet counts are not exact multiples.\n")
+            f.write("Add the following pallets to reach valid block sizes:\n\n")
+            for line in lines:
+                f.write(line.strip() + "\n")
         _log(out_dir, f"Wrote summary: {summary_path}")
-        print("\nStopping before optimization.")
-        return
+        raise RuntimeError(
+            "Pallet counts are not exact multiples — cannot build complete blocks.\n"
+            "Add the following pallets to your order:\n" + detail
+        )
 
     print(f"Constructed {len(blocks)} row-block VARIANTS")
     physical_blocks = len(set(b.block_id for b in blocks))
@@ -347,6 +355,25 @@ def main(
     # So we keep only one variant per physical block_id.
     blocks = select_one_variant_per_block(blocks)
     print(f"After choosing ONE variant per block_id: {len(blocks)} blocks")
+
+    if not blocks:
+        raise RuntimeError(
+            "No valid pallet blocks could be built from the input.\n"
+            "All pallets had unknown footprints or unrecognised dimensions.\n"
+            "Check pallet size strings (expected format: '1,15x0,77x1,27') "
+            "and footprint dimensions (recognised: 115×115, 115×108, 115×77, 77×77 cm)."
+        )
+
+    # Pre-solver: verify at least one block fits through the door
+    door_ok = [b for b in blocks if b.height_cm <= Hdoor_cm]
+    if not door_ok:
+        heights_str = ", ".join(str(h) for h in sorted({b.height_cm for b in blocks}))
+        raise RuntimeError(
+            f"No pallet blocks fit through the container door ({Hdoor_cm} cm).\n"
+            f"Stacked block heights in your order: {heights_str} cm.\n"
+            f"Fix: increase CONTAINER_DOOR_HEIGHT_CM in optimizer_config.json "
+            f"(standard 40ft High-Cube door = 259 cm), or check pallet heights in the Excel."
+        )
 
     # ------------------------------------------------------------
     # 3) Multi-container loop
@@ -358,6 +385,11 @@ def main(
     container_idx = 1
 
     while remaining_blocks:
+        if container_idx > MAX_CONTAINERS:
+            raise RuntimeError(
+                f"Stopped after {MAX_CONTAINERS} containers — something may be wrong with the input. "
+                f"Check for blocks that are too heavy or too long to ever be packed."
+            )
         print(f"\n--- Solving container {container_idx} ---")
 
         # ---- Flatten remaining blocks into model arrays ----

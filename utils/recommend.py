@@ -309,8 +309,10 @@ def recommend_fill_containers(
     For each container recommend items to add to fill free space.
 
     Two zones per container:
-      1. tail  — unused Y-length after the last row (2-D fill from z=0)
-      2. atop  — headroom above each pallet row     (2-D fill from z=row_h)
+      1. tail  — unused Y-length after the last row (2-D fill from z=0);
+                 both pallet blocks and NP boxes are candidates here.
+      2. atop  — headroom above each pallet row (2-D fill from z=row_h);
+                 pallet blocks only — NP boxes cannot be placed on top of pallets.
 
     The door height is the binding ceiling constraint: items at height z must
     satisfy  z + item_height ≤ Hdoor_cm  (= items must pass through the door).
@@ -341,7 +343,8 @@ def recommend_fill_containers(
                 actual_height_by_key[k] = h
 
         pallet_cands = _build_pallet_candidates(used_keys, type_table, actual_height_by_key)
-        all_cands    = pallet_cands + np_box_cands_global
+        # NP boxes go in the tail only — never on top of pallets.
+        all_tail_cands = pallet_cands + np_box_cands_global
 
         # Identify zones already filled by NP box assignment (step 7).
         # Recommendations must not overlap with existing NP box placements.
@@ -355,11 +358,11 @@ def recommend_fill_containers(
         # ---- Tail zone (z = 0, ceiling = Hdoor_cm) -------------------
         tail_placements: List[Dict[str, Any]] = []
         tail_leftover = tail_L
-        if tail_L > gap_cm and all_cands and not tail_has_np:
+        if tail_L > gap_cm and all_tail_cands and not tail_has_np:
             tail_placements, tail_leftover = _greedy_fill_2d(
                 avail_L=tail_L,
                 H_avail=Hdoor_cm,          # full door height available from z=0
-                candidates=all_cands,
+                candidates=all_tail_cands,
                 gap_cm=gap_cm,
                 objective=objective,
                 secondary=secondary,
@@ -389,8 +392,9 @@ def recommend_fill_containers(
             if avail_h <= 0:
                 continue
 
+            # Only pallet blocks above pallets — NP boxes cannot go on top of pallets.
             atop_cands = [
-                c for c in all_cands
+                c for c in pallet_cands
                 if c["height_cm"] <= avail_h and c["length_cm"] <= row_L
             ]
             if not atop_cands:

@@ -46,10 +46,17 @@ _EMPTY_COLOR   = "EEEEEE"  # light grey        — unused / empty space
 _REC_PAL_COLOR = "C8F7C5"  # light fresh green — recommended pallets
 _REC_NP_COLOR  = "B2EBF2"  # light teal        — recommended NP boxes
 
-# Traffic-light fill colours for fill-rate %
-_TL_GOOD = "27AE60"   # dark green  ≥ 85 %
-_TL_OK   = "E67E22"   # amber       ≥ 60 %
-_TL_BAD  = "E74C3C"   # red         < 60 %
+# Fill-rate cell colours
+_TL_GOOD = "27AE60"   # dark green — optimally filled (≥ 85 %)
+_TL_OK   = "E67E22"   # amber      — not optimally filled (< 85 %)
+
+# Footprint → pallet type code (shown in Container Details sheet)
+_FOOTPRINT_TO_PALLET_TYPE: Dict[str, str] = {
+    "115x115": "A2",
+    "115x108": "A1",
+    "115x77":  "C2",
+    "77x77":   "D2",
+}
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -75,29 +82,35 @@ def _block_color(key: str) -> str:
             return color
     return "CCCCCC"
 
-def _tl_color(pct: float) -> str:
-    return _TL_GOOD if pct >= 85 else (_TL_OK if pct >= 60 else _TL_BAD)
+def _has_recommendations(rec: dict) -> bool:
+    """True when the recommendation engine found items that can still be added."""
+    return (rec.get("total_pallets_to_add", 0) > 0
+            or rec.get("total_np_boxes_to_add", 0) > 0)
 
 
 def _vol_fill_pct(container: dict, W: int, Hdoor: int, L: int) -> float:
-    """Volumetric fill %: (pallet vol + placed box vol) / (L × W × Hdoor) × 100.
+    """Volumetric fill %: claimed space / (L × W × Hdoor) × 100.
 
-    Pallet volume = sum of each row's (length × full-container-width × row height).
-    NP box volume = pre-computed volume_used_cm3 from the greedy fill.
-    Container usable volume uses door height (the loading constraint ceiling).
+    Both pallets and NP box zones are counted by their CLAIMED zone volume,
+    not the material volume of the goods inside them.  This is consistent:
+      - Pallet block: length × container_width × block_height  (full cross-section)
+      - NP box zone:  zone_length × zone_width × zone_height   (full claimed space)
+    Once a zone is assigned to NP boxes it is operationally full — no pallets
+    can be added there — so counting its full volume is the correct basis for
+    the fill metric that drives packing decisions.
     """
     pallet_vol = sum(
         r["length_cm"] * W * r["height_cm"]
         for r in container.get("rows", [])
     )
-    box_vol = sum(
-        z["volume_used_cm3"]
+    box_zone_vol = sum(
+        z["length_cm"] * z["width_cm"] * z["height_cm"]
         for z in container.get("box_zones", [])
     )
     container_vol = float(L * W * Hdoor)
     if container_vol <= 0:
         return 0.0
-    return round(100.0 * (pallet_vol + box_vol) / container_vol, 1)
+    return round(100.0 * (pallet_vol + box_zone_vol) / container_vol, 1)
 
 
 def _set_cell(ws, row: int, col: int, value=None, *,
@@ -247,17 +260,26 @@ def _write_overview(ws, containers, recs, np_boxes, unplaced, config):
         r_pal  = rec.get("total_pallets_to_add", 0)
         fill_p = _vol_fill_pct(c, W, Hdoor, L)
 
-        bg = _ALT_ROW if i % 2 == 0 else _WHITE
-        tl = _tl_color(fill_p)
+        bg      = _ALT_ROW if i % 2 == 0 else _WHITE
+        # Green ✓  = no recommendations exist (nothing more can be added).
+        # Orange % = recommendations found (more pallets/boxes could be loaded).
+        optimal = not _has_recommendations(rec)
 
         data = [idx, used, L, fill_p, pals, round(wt, 0), boxes, r_pal]
         for j, val in enumerate(data):
             col  = 1 + j
             cell = _set_cell(ws, r, col, val, bg=bg, h="center", border=True)
-            if j == 3:   # Fill %
-                cell.fill   = _fill(tl)
-                cell.font   = _font(bold=True, color=_WHITE, size=10)
-                cell.number_format = '0.0"%"'
+            if j == 3:   # Fill % cell
+                # Keep numeric fill_p so the bar chart can still read it.
+                # Use a number format to control the display without altering the value.
+                if optimal:
+                    cell.number_format = '"✓"'   # any number → literal ✓
+                    cell.fill = _fill(_TL_GOOD)
+                    cell.font = _font(bold=True, color=_WHITE, size=13)
+                else:
+                    cell.number_format = '0.0"%"'
+                    cell.fill = _fill(_TL_OK)
+                    cell.font = _font(bold=True, color=_WHITE, size=10)
             elif j in (1, 2):
                 cell.number_format = '#,##0'
             elif j == 5:
@@ -305,7 +327,7 @@ def _write_overview(ws, containers, recs, np_boxes, unplaced, config):
 def _write_details(ws, containers, config):
     ws.sheet_view.showGridLines = False
 
-    col_widths = [14, 20, 12, 12, 14, 12, 14]
+    col_widths = [20, 10, 16, 12, 12, 14, 12, 14]
     for i, w in enumerate(col_widths):
         ws.column_dimensions[get_column_letter(i + 1)].width = w
 
@@ -327,7 +349,7 @@ def _write_details(ws, containers, config):
         n_boxes = sum(p["quantity"] for z in zones for p in z["placed"])
 
         # Container header
-        _merge_write(ws, row, 1, row, 7,
+        _merge_write(ws, row, 1, row, 8,
                      f"  CONTAINER {idx}   —   Vol Fill: {vol_p}%  |  "
                      f"Len used: {used} / {L} cm  ({len_p}%)"
                      f"   |   Pallets: {pals}   Weight: {wt:,.0f} kg   NP Boxes: {n_boxes}",
@@ -336,13 +358,13 @@ def _write_details(ws, containers, config):
         row += 1
 
         # Pallet rows sub-section
-        _merge_write(ws, row, 1, row, 7, "  Pallet Row Blocks",
+        _merge_write(ws, row, 1, row, 8, "  Pallet Row Blocks",
                      bold=True, fg=_WHITE, bg=_SUBHDR_BG, size=10)
         ws.row_dimensions[row].height = 18
         row += 1
 
         _col_header_row(ws, row,
-                        ["Block Type", "Footprint", "Length (cm)", "Height (cm)",
+                        ["Block Type", "Pallet Type", "Footprint", "Length (cm)", "Height (cm)",
                          "Weight (kg)", "Pallets", "Y Start (cm)"],
                         col_start=1)
         row += 1
@@ -350,9 +372,12 @@ def _write_details(ws, containers, config):
         for ri, rrow in enumerate(c.get("rows", [])):
             bg = _ALT_ROW if ri % 2 == 0 else _WHITE
             bk = rrow["block_type"]
+            footprint_key = bk.split("|")[0] if "|" in bk else bk
+            pallet_type   = _FOOTPRINT_TO_PALLET_TYPE.get(footprint_key, "—")
             vals = [
                 bk,
-                bk.split("|")[0] if "|" in bk else bk,
+                pallet_type,
+                footprint_key,
                 rrow["length_cm"],
                 rrow["height_cm"],
                 round(rrow["weight_kg"], 1),
@@ -361,14 +386,14 @@ def _write_details(ws, containers, config):
             ]
             for ci, v in enumerate(vals):
                 _set_cell(ws, row, ci + 1, v,
-                          bg=_block_color(bk) if ci == 0 else bg,
-                          border=True, h="center" if ci > 0 else "left")
+                          bg=_block_color(bk) if ci in (0, 1) else bg,
+                          border=True, h="center" if ci > 1 else "left")
             ws.row_dimensions[row].height = 16
             row += 1
 
         # NP box zones sub-section
         if zones:
-            _merge_write(ws, row, 1, row, 7, "  NP Box Zones",
+            _merge_write(ws, row, 1, row, 8, "  NP Box Zones",
                          bold=True, fg=_WHITE, bg=_SUBHDR_BG, size=10)
             ws.row_dimensions[row].height = 18
             row += 1
@@ -520,9 +545,10 @@ def _write_layout(ws, containers, recs, config):
     for c in containers:
         idx    = c["container_index"]
         used   = c["used_length_cm"]
-        fill_p = _vol_fill_pct(c, W, Hdoor, L)
-        tl     = _tl_color(fill_p)
-        rec    = rec_by_idx.get(idx, {})
+        fill_p  = _vol_fill_pct(c, W, Hdoor, L)
+        rec     = rec_by_idx.get(idx, {})
+        optimal = not _has_recommendations(rec)
+        tl      = _TL_GOOD if optimal else _TL_OK
 
         rows_data = c.get("rows", [])
         zones     = c.get("box_zones", [])
@@ -547,15 +573,17 @@ def _write_layout(ws, containers, recs, config):
                      pallet_row + n_sub_rows - 1, 1,
                      f"Cont. {idx}",
                      bold=True, fg=_WHITE, bg=_SUBHDR_BG, size=9, h="center", v="center")
-        # Fill % (merged across sub-rows)
+        # Fill % / optimal marker (merged across sub-rows).
+        # Always write numeric fill_p so the chart can read it; number format
+        # shows "✓" for optimal containers, "XX.X%" for others.
         _merge_write(ws, pallet_row, 2,
                      pallet_row + n_sub_rows - 1, 2,
-                     f"{fill_p}%",
-                     bold=True, fg=_WHITE, bg=_fill(tl).fgColor.rgb if False else tl,
-                     size=9, h="center", v="center")
-        ws.cell(row=pallet_row, column=2).fill = _fill(tl)
-        ws.cell(row=pallet_row, column=2).font = _font(bold=True, color=_WHITE, size=9)
-        ws.cell(row=pallet_row, column=2).alignment = _align(h="center", v="center")
+                     fill_p,
+                     bold=True, fg=_WHITE, bg=tl,
+                     size=11 if optimal else 9, h="center", v="center")
+        fill_cell = ws.cell(row=pallet_row, column=2)
+        fill_cell.fill = _fill(tl)
+        fill_cell.number_format = '[>=85]"✓";0.0"%"'
 
         # Layer labels in col 3
         _set_cell(ws, pallet_row, 3, "Pallets", size=7, h="center", bg=_LIGHT_GRAY)
