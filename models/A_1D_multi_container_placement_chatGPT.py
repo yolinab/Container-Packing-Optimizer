@@ -1,3 +1,4 @@
+import numpy as np
 from cpmpy import *
 from cpmpy.expressions.globalconstraints import Element
 from config import CONTAINER_LENGTH_CM, CONTAINER_DOOR_HEIGHT_CM, CONTAINER_MAX_WEIGHT_KG, ROW_GAP_CM
@@ -81,10 +82,10 @@ class RowBlock1DOrderModel:
         R = self.Rmax
 
         # slot[r] in 0..N (0 = empty, i = choose block instance i)
-        self.slot = intvar(0, N, shape=R, name="slot")
+        self.slot = np.atleast_1d(intvar(0, N, shape=R, name="slot"))
 
         # convenient bools
-        self.used = boolvar(shape=R, name="used")      # used[r] <-> slot[r] != 0
+        self.used = np.atleast_1d(boolvar(shape=R, name="used"))      # used[r] <-> slot[r] != 0
 
         # how many rows used
         self.rowsUsed = intvar(0, R, name="rowsUsed")
@@ -99,7 +100,7 @@ class RowBlock1DOrderModel:
         self.loadedValue = intvar(0, sum(self.val_in), name="loadedValue")
 
         # load[i] like your old model (for pipeline extraction)
-        self.load = boolvar(shape=N, name="load")
+        self.load = np.atleast_1d(boolvar(shape=N, name="load"))
 
         self.model = Model()
 
